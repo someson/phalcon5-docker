@@ -1,0 +1,11 @@
+Thumbs.db
+.DS_Store
+.project
+.metadata
+.codeintel
+.idea
+.env
+/vendor
+/storage/logs
+node_modules/
+composer.lock

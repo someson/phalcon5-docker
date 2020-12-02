@@ -1,0 +1,65 @@
+version: '3.8'
+services:
+
+    # nginx
+    nginx-service:
+        build:
+            context: docker/nginx
+            dockerfile: Dockerfile
+        container_name: p5-webserver
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./project:/var/www/html
+            - ./project/storage/logs/nginx:/var/log/nginx
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/conf.d/gzip.conf:/etc/nginx/conf.d/gzip.conf
+            - ./docker/nginx/certs:/etc/ssl/certs
+            - ./docker/nginx/sites-enabled:/etc/nginx/sites-enabled
+            - ./docker/nginx/snippets:/etc/nginx/snippets
+            - ./docker/nginx/templates:/etc/nginx/templates
+        environment:
+            APPLICATION_ENV: development
+            VHOST_NAME: phalcon5.test
+            VHOST_FASTCGI_PASS: app-service
+            VHOST_FASTCGI_PORT: 9000
+            NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx/sites-enabled
+        depends_on:
+            - app-service
+            - composer-service
+        networks:
+            - backend
+
+    # php
+    app-service:
+        build:
+            context: docker
+            dockerfile: php/Dockerfile
+        container_name: p5-app
+        environment:
+            XDEBUG_IDEKEY: PHPSTORM
+            XDEBUG_REMOTE_PORT: 9003 # https://xdebug.org/docs/upgrade_guide#Step-Debugging
+            XDEBUG_REMOTE_HOST: host.docker.internal
+        ports:
+            - 9000:9000
+        volumes:
+            - ./project:/var/www/html
+            - ~/composer:/root/.composer
+        networks:
+            - backend
+
+    # composer
+    composer-service:
+        image: composer/composer:latest
+        container_name: p5-composer
+        volumes:
+            - ./project:/app
+        working_dir: /app
+        command: install --ignore-platform-reqs --no-scripts
+        networks:
+            - backend
+
+networks:
+    backend:

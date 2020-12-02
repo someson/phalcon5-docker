@@ -1,0 +1,19 @@
+location = /favicon.ico {
+    access_log off;
+    log_not_found off;
+}
+
+location = /robots.txt {
+    access_log off;
+    log_not_found off;
+}
+
+location ~* ^/assets/(css|docs|fonts|images|js|min|scss|libs)/(.+)$ {
+    try_files $uri $uri = 404;
+    root /var/www/html/public;
+    add_header Pragma "public";
+    expires 7d;
+    log_not_found off;
+    access_log off;
+    error_log off;
+}

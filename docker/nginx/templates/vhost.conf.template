@@ -1,0 +1,43 @@
+server {
+    listen 80;
+    server_name ${VHOST_NAME};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name ${VHOST_NAME};
+    root /var/www/html/public;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$query_string;
+    }
+
+    location ~ \.php {
+        try_files $uri =404;
+
+        fastcgi_pass ${VHOST_FASTCGI_PASS}:${VHOST_FASTCGI_PORT};
+        fastcgi_index index.php;
+
+        include /etc/nginx/fastcgi.conf;
+
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param APPLICATION_ENV "${APPLICATION_ENV}";
+
+        # Avoid upstream sent too big header while reading error
+        # https://stackoverflow.com/questions/17708152/nginx-overwrites-general-symfony-errors-with-502-bad-gateway
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 4 256k;
+        fastcgi_busy_buffers_size 256k;
+    }
+
+    include /etc/nginx/snippets/location-assets;
+    include /etc/nginx/snippets/location-dot;
+    include /etc/nginx/snippets/headers;
+    include /etc/nginx/snippets/ssl;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+}

@@ -1,0 +1,19 @@
+{
+    "name": "someson/phalcon5-docker",
+    "description": "dockerized application based on phalcon framework 5.x",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "phalcon/phalcon": "v5.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev"
+}
