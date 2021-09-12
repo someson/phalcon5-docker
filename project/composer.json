@@ -3,8 +3,8 @@
     "description": "dockerized application based on phalcon framework 5.x",
     "type": "project",
     "license": "MIT",
-    "require": {
-        "phalcon/phalcon": "v5.0.x-dev"
+    "require-dev": {
+        "phalcon/ide-stubs": "v5.0.0-alpha.5"
     },
     "autoload": {
         "psr-4": {

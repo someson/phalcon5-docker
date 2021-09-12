@@ -7,5 +7,6 @@ Thumbs.db
 .env
 /vendor
 /storage/logs
+/storage/tmp
 node_modules/
 composer.lock

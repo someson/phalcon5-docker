@@ -1,0 +1,53 @@
+@font-face{
+font-family: 'JetBrains Mono';
+src: url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/eot/JetBrainsMono-Regular.eot') format('embedded-opentype'),
+url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+* {
+-webkit-font-feature-settings: "liga" on, "calt" on;
+-webkit-font-smoothing: antialiased;
+text-rendering: optimizeLegibility;
+font-family: 'JetBrains Mono';
+}
+.tab-content { font-size:12px }
+.str, .atv { color: #8EAACD; }
+.kwd { color: #9385AC; }
+.com { color: #66747B; }
+.typ, .tag { color: #c0c0c0; }
+.lit { color: #5AB889; }
+.pun { color: #dadada; }
+.pln { color: #F1F2F3; }
+.atn { color: #E0E2E4; }
+.dec { color: purple; }
+
+pre.prettyprint {
+font-family: Consolas,Lucida Console,Monaco,Andale Mono,"MS Gothic",monospace;
+border:0 solid #888;
+font-size: 13px;
+font-weight: normal;
+white-space: pre-wrap;
+}
+ol.linenums { margin-top:0; margin-bottom:0; }
+.prettyprint { background-color: #2f2f2f; }
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9 { color: #555; list-style-type: decimal; width:100% }
+li.L1, li.L3, li.L5, li.L7, li.L9 { background: #2a2a2a; }
+li.highlight { background: #1a1a1a; }
+
+.error-scroll { height:250px; overflow-y:scroll; }
+.error-info h3 { margin:0; color: #414141; margin-bottom: 5px; font-size: 14px;border-bottom: 1px solid #eaeaea; }
+.error-info { text-align: center; width:90%; padding: 10px; background: #fff; margin-top: 5px; }
+.error-info td.error-number { color: #807B70; width: 20px; font-size: 14px; }
+.error-info .error-file,
+.error-main .error-file { font-size: 11px; margin-top: 3px; color: #717171; }
+.error-info .error-file { background: #D83D5B; color: #fff; margin: 0; margin-top: 10px; padding-top: 10px; padding-bottom: 7px; padding-left: 5px; max-width: 1024px; }
+.error-info .error-class { color: #2A2A2A; }
+.error-info .error-parameter { color: #807B70; }
+.error-info .error-function { color: #333; font-weight: bold; }
+.error-info pre { text-align: left; margin:0; max-width: 1024px; }
+
+.footer { background-color: #f5f5f5; }

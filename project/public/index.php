@@ -1,53 +1,26 @@
 <?php
 
+set_time_limit(0);
 error_reporting(E_ALL);
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-$version = \Phalcon\Version\Version::get();
 
-?>
-<!doctype html>
-<html class="no-js" lang="en-EN">
-<head>
-  <meta charset="utf-8">
-  <title><?= $version ?></title>
-  <meta name="description" content="Phalcon 5 test site">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" href="/assets/css/normalize.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <style>
-    html, body {
-      font-family: Consolas, sans-serif;
+$dir = dirname(__DIR__);
+
+require_once $dir . '/app/Constants.php';
+require_once $dir . '/app/Functions.php';
+require_once $dir . '/vendor/autoload.php';
+
+try {
+
+    (new \App\Env($dir))->load();
+    $app = new \App\Bootstrap();
+    $app->getApplication()->handle(URI);
+
+} catch (\Throwable $e) {
+    $filePath = explode(DS, $e->getFile());
+    $isModule = end($filePath) === 'Module.php';
+    if (! isset($app) || $isModule) {
+        require_once $dir . '/app/Micro.php';
+        exit();
     }
-    .centered {
-      width: 50%;
-      margin: 0 auto;
-    }
-    header {
-      margin-top: 30px !important;
-      background-color: #EEE;
-      border-radius: 5px;
-      font-size: 20px;
-      text-align: center;
-      padding: 20px 0;
-      font-weight: 700;
-    }
-    a, a:hover, a:focus, a:active, a:visited {
-      text-decoration: none;
-    }
-    header a {
-      float: right;
-      margin-right: 20px;
-    }
-  </style>
-</head>
-<body>
-<header class="centered">
-  Phalcon Framework v<?= $version ?>
-  <a href="https://github.com/phalcon/phalcon/tree/v5.0.x" title="Phalcon Framework" target="_blank">
-    <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-  </a>
-</header>
-<p class="centered"><small><a href="/info.php">phpinfo()</a></small></p>
-</body>
-</html>
+    $app->getApplication()->handleException($e);
+}
