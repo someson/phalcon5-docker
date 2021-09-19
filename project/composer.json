@@ -4,7 +4,7 @@
     "type": "project",
     "license": "MIT",
     "require-dev": {
-        "phalcon/ide-stubs": "v5.0.0-alpha.5"
+        "phalcon/ide-stubs": "v5.0.0-alpha.6"
     },
     "autoload": {
         "psr-4": {
