@@ -1,6 +1,6 @@
 FROM php:8.0.10-fpm-alpine
 
-ENV PHALCON_VERSION=5.0.0alpha5 \
+ENV PHALCON_VERSION=5.0.0alpha6 \
     PSR_VERSION=1.1.0 \
     APCU_VERSION=5.1.20
 
