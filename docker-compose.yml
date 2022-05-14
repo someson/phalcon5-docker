@@ -50,16 +50,5 @@ services:
         networks:
             - backend
 
-#    # composer
-#    composer-service:
-#        image: composer/composer:latest
-#        container_name: p5-composer
-#        volumes:
-#            - ./project:/app
-#        working_dir: /app
-#        command: install --ignore-platform-reqs --no-scripts
-#        networks:
-#            - backend
-
 networks:
     backend:
