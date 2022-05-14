@@ -13,8 +13,7 @@ class Filter implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared(self::SERVICE_NAME, function() {
-            $factory = new FilterFactory();
-            return $factory->newInstance();
+            return (new FilterFactory())->newInstance();
         });
     }
 }

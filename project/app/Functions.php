@@ -5,9 +5,3 @@ if (! function_exists('env')) {
         return \App\Env::get($name, $default);
     }
 }
-
-if (! function_exists('__')) {
-    function __($key = null, array $params = []): string {
-        return $key ? \App\Translator::instance()->translate($key, $params) : '[TRANSLATION FAILED]';
-    }
-}

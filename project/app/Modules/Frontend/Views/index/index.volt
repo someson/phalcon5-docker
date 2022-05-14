@@ -12,5 +12,8 @@
   </tbody>
 </table>
 
+<p>Flashmessage Direct:</p>
 {{ content() }}
+
+<p>Flashmessage Session:</p>
 {{ flashSession.output() }}

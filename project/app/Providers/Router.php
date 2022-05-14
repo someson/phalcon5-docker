@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Router as BaseRouter;
-use Phalcon\Registry;
+use Phalcon\Support\Registry;
 
 class Router implements ServiceProviderInterface
 {

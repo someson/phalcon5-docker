@@ -1,24 +1,13 @@
-FROM php:8.0.10-fpm-alpine
+FROM php:7.4-fpm
 
-ENV PHALCON_VERSION=5.0.0alpha6 \
-    PSR_VERSION=1.1.0 \
-    APCU_VERSION=5.1.20
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl-dev \
+    git \
+    libicu-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-COPY php/cert/cacert.pem /usr/local/share/ca-certificates/cacert.pem
-RUN chmod 644 /usr/local/share/ca-certificates/cacert.pem && update-ca-certificates
-
-RUN apk add git \
-    && apk add --no-cache --virtual .persistent-deps \
-    libxml2-dev \
-    # for intl extension
-    icu-libs
-
+ENV APCU_VERSION=5.1.21
 RUN set -xe \
-    && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        icu-dev \
-        icu-libs \
     && pecl install apcu-${APCU_VERSION} xdebug \
     && docker-php-ext-enable xdebug apcu \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
@@ -27,11 +16,10 @@ RUN set -xe \
         calendar \
         intl \
         pdo_mysql \
-    && pecl clear-cache \
-    && apk del .build-deps \
-    && docker-php-source delete \
-    && rm -rf /tmp/* /var/cache/apk/*
+    && pecl clear-cache
 
+ENV PHALCON_VERSION=5.0.0beta3 \
+    PSR_VERSION=1.1.0
 RUN set -xe \
     && curl -LO https://github.com/jbboehr/php-psr/archive/refs/tags/v${PSR_VERSION}.tar.gz \
     && tar xzf ${PWD}/v${PSR_VERSION}.tar.gz \
@@ -47,6 +35,8 @@ RUN set -xe \
         ${PWD}/cphalcon-${PHALCON_VERSION} \
     && php -m
 
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
 COPY php/php.ini /usr/local/etc/php/conf.d/php-override.ini
 COPY fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY fpm/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
@@ -54,4 +44,3 @@ COPY fpm/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 RUN touch /var/log/remote.log && chmod 666 /var/log/remote.log
 
 WORKDIR /var/www/html
-

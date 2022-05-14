@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Logger as LogHandler;
+use Phalcon\Logger\Logger as LogHandler;
 use Phalcon\Logger\Adapter\Stream as File;
 use Phalcon\Logger\Formatter\Line;
 

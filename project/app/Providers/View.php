@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use App\Env;
+use App\Shared\VoltFunctions;
 use App\View as ExtendedView;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -42,6 +43,8 @@ class View implements ServiceProviderInterface
                 'path' => $compiledPath,
                 'always' => ! Env::isProduction(),
             ]);
+            $compiler = $volt->getCompiler();
+            $compiler->addExtension(new VoltFunctions());
             return $volt;
         });
     }

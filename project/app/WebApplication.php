@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application;
 
 class WebApplication extends Application
 {
-    public function __construct(Di\DiInterface $di)
+    public function __construct(DiInterface $di)
     {
         $this->registerModules([
             'frontend' => [
@@ -32,7 +33,6 @@ class WebApplication extends Application
             Providers\Security::class,
             Providers\Session::class,
             Providers\View::class,
-            Providers\Tag::class,
             Providers\Url::class,
         ];
     }

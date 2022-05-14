@@ -5,13 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1">
 {{ get_title() }}
-{{ tag.getMeta('description') }}
-{{ tag.getMeta('keywords') }}
-{{ tag.getMeta('robots') }}
-{{ tag.getCanonical() }}
-{{ tag.getAlternate() }}
+{#{{ tag.getMeta('description') }}#}
+{#{{ tag.getMeta('keywords') }}#}
+{#{{ tag.getMeta('robots') }}#}
+{#{{ tag.getCanonical() }}#}
+{#{{ tag.getAlternate() }}#}
 <link rel="shortcut icon" href="/assets/favicon.ico">
-{% if assets.exists('headerCss') %}{{ assets.outputCss('headerCss') }}{% endif %}
+{% if assets.has('headerCss') %}{{ assets.outputCss('headerCss') }}{% endif %}
 </head>
 <body class="d-flex flex-column h-100">
 <main role="main" class="flex-shrink-0">
@@ -26,7 +26,7 @@
     </span>
   </div>
 </footer>
-{% if assets.exists('footerJs') %}{{ assets.outputJs('footerJs') }}{% endif %}
-{% if assets.exists('footerMainJs') %}{{ assets.outputJs('footerMainJs') }}{% endif %}
+{% if assets.has('footerJs') %}{{ assets.outputJs('footerJs') }}{% endif %}
+{% if assets.has('footerMainJs') %}{{ assets.outputJs('footerMainJs') }}{% endif %}
 </body>
 </html>

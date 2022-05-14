@@ -15,7 +15,7 @@ abstract class ControllerBase extends Controller
         return $group ? trim($group->getPrefix(), ' /') : null;
     }
 
-    protected function redirect(mixed $to = null, bool $external = false, int $statusCode = StatusCode::STATUS_FOUND): bool
+    protected function redirect($to = null, bool $external = false, int $statusCode = StatusCode::STATUS_FOUND): bool
     {
         $parts = [];
         if ($prefix = $this->getModulePrefix()) {

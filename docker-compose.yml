@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
 
     # nginx
@@ -8,8 +8,8 @@ services:
             dockerfile: Dockerfile
         container_name: p5-webserver
         ports:
-            - 80:80
-            - 443:443
+            - "80:80"
+            - "443:443"
         volumes:
             - ./project:/var/www/html
             - ./project/storage/logs/nginx:/var/log/nginx
@@ -28,7 +28,6 @@ services:
             NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx/sites-enabled
         depends_on:
             - app-service
-            - composer-service
         networks:
             - backend
 
@@ -43,23 +42,24 @@ services:
             XDEBUG_REMOTE_PORT: 9003 # https://xdebug.org/docs/upgrade_guide#Step-Debugging
             XDEBUG_REMOTE_HOST: host.docker.internal
         ports:
-            - 9000:9000
+            - "9000:9000"
+            - "8000:8000"
         volumes:
             - ./project:/var/www/html
             - ~/composer:/root/.composer
         networks:
             - backend
 
-    # composer
-    composer-service:
-        image: composer/composer:latest
-        container_name: p5-composer
-        volumes:
-            - ./project:/app
-        working_dir: /app
-        command: install --ignore-platform-reqs --no-scripts
-        networks:
-            - backend
+#    # composer
+#    composer-service:
+#        image: composer/composer:latest
+#        container_name: p5-composer
+#        volumes:
+#            - ./project:/app
+#        working_dir: /app
+#        command: install --ignore-platform-reqs --no-scripts
+#        networks:
+#            - backend
 
 networks:
     backend:

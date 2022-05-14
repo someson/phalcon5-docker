@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Get;
 
 class Debug extends \Phalcon\Support\Debug
 {
@@ -21,8 +21,9 @@ END;
 
     public function createTabContent($backtrace): string
     {
+        $getArray = new Get();
         $request = '';
-        $blacklist = Arr::get($this->blacklist, 'request', []);
+        $blacklist = $getArray($this->blacklist, 'request', []);
         foreach ($_REQUEST as $keyRequest => $value) {
             if (! isset($blacklist[strtolower($keyRequest)])) {
                 $request.= sprintf('<tr><td>%s</td><td>%s</td></tr>', $keyRequest, \is_array($value) ? print_r($value, true) : $value);
@@ -30,7 +31,7 @@ END;
         }
 
         $globalVars = '';
-        $blacklist = Arr::get($this->blacklist, 'server', []);
+        $blacklist = $getArray($this->blacklist, 'server', []);
         foreach ($_SERVER as $keyServer => $value) {
             if (! isset($blacklist[strtolower($keyServer)])) {
                 $globalVars.= sprintf('<tr><td>%s</td><td>%s</td></tr>', $keyServer, $this->getVarDump($value));
@@ -105,8 +106,9 @@ END;
 
         $debugInfo = '';
         if ($showBackTrace) {
-            $backtrace = '';
-            foreach ($exception->getTrace() as $n => $traceItem) {
+            $backtrace = 'No backtrace';
+            $trace = $exception->getTrace() ?: [];
+            foreach ($trace as $n => $traceItem) {
                 $backtrace.= $this->showTraceItem($n, $traceItem);
             }
             $debugInfo = <<<END

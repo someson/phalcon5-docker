@@ -3,8 +3,9 @@
 namespace App;
 
 use DomainException;
-use Phalcon\{ Di, Registry };
+use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Support\Registry;
 
 class Bootstrap
 {
@@ -14,7 +15,7 @@ class Bootstrap
     {
         $this->defineConstants($this->identify());
 
-        $di = new FactoryDefault;
+        $di = new FactoryDefault();
         Di::setDefault($di);
 
         $this->_app = new WebApplication($di);

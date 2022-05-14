@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Security as PhalconSecurity;
+use Phalcon\Encryption\Security as PhalconSecurity;
 
 class Security implements ServiceProviderInterface
 {

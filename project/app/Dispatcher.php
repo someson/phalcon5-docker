@@ -3,7 +3,7 @@
 namespace App;
 
 use Phalcon\Mvc\Dispatcher as BaseDispatcher;
-use Phalcon\Collection;
+use Phalcon\Support\Collection;
 
 class Dispatcher extends BaseDispatcher
 {

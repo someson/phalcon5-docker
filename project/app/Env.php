@@ -32,9 +32,6 @@ class Env
         return env('APP_ENV') === self::TESTING;
     }
 
-    /**
-     * @return array
-     */
     public static function getAll(): array
     {
         $envObject = new \ReflectionClass(self::class);
@@ -66,10 +63,7 @@ class Env
         }
     }
 
-    /**
-     * @param $line
-     */
-    public static function put($line): void
+    public static function put(string $line): void
     {
         $vars = parse_ini_string($line, false, INI_SCANNER_TYPED) ?: [];
         foreach ($vars as $k => $v) {
@@ -77,11 +71,7 @@ class Env
         }
     }
 
-    /**
-     * @param $key
-     * @param $value
-     */
-    public static function set($key, $value): void
+    public static function set(string $key, $value): void
     {
         static::$_env[$key] = $value;
         $_ENV[$key] = $value;
@@ -89,10 +79,10 @@ class Env
 
     /**
      * @param string|null $name
-     * @param null $default
+     * @param mixed|null $default
      * @return mixed
      */
-    public static function get(?string $name = null, $default = null): mixed
+    public static function get(?string $name = null, $default = null)
     {
         if (! $name) {
             return self::$_env;

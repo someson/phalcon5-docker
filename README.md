@@ -14,7 +14,7 @@ $ docker-compose up -d --build
 - composer update from the host:
 
 ```sh
-$ docker-compose run --rm composer-service composer update --ignore-platform-reqs --no-scripts
+$ docker-compose exec app-service composer install
 ```
 
 ## Containers:
@@ -22,10 +22,8 @@ $ docker-compose run --rm composer-service composer update --ignore-platform-req
 - **nginx 1.21.3 + ssl + http2**
     - port 443 by default
 
-- **php 8.0.10**
+- **php 7.4**
     - fpm port 9000
     - xdebug 3 (port 9003)
     - apcu
     - intl
-
-- **composer >= 2**

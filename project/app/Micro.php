@@ -13,7 +13,7 @@ try {
 
     $defaultConfig = new \Phalcon\Config\Adapter\Php($file);
     $site = $defaultConfig->get('app', []);
-    $config = new \Phalcon\Config([
+    $config = new \Phalcon\Config\Config([
         'debug' => $defaultConfig->get('debug', true),
         'viewsDir' => SHARED_DIR . '/Views/',
         'cacheDir' => CACHE_DIR . '/volt/',

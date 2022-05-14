@@ -21,7 +21,7 @@ class ErrorController extends ControllerBase
 
         /** @var Dispatcher $dispatcher */
         $dispatcher = $this->getDI()->getShared('dispatcher');
-        if ($exception = $dispatcher?->getUserOptions()?->has('exceptionData')) {
+        if ($exception = $dispatcher->getUserOptions()->has('exceptionData')) {
             $this->view->setVar('exceptionData', (object) $exception);
         }
         $this->view->setVars([
