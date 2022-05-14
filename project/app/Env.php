@@ -8,7 +8,7 @@ class Env
     public const DEVELOPMENT = 'development';
     public const TESTING     = 'testing';
 
-    protected string $_filePath;
+    private string $_filePath;
 
     protected static array $_env = [];
 
@@ -71,7 +71,7 @@ class Env
         }
     }
 
-    public static function set(string $key, $value): void
+    public static function set(string $key, mixed $value): void
     {
         static::$_env[$key] = $value;
         $_ENV[$key] = $value;
@@ -82,7 +82,7 @@ class Env
      * @param mixed|null $default
      * @return mixed
      */
-    public static function get(?string $name = null, $default = null)
+    public static function get(?string $name = null, mixed $default = null): mixed
     {
         if (! $name) {
             return self::$_env;

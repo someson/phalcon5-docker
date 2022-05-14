@@ -10,33 +10,24 @@ class ErrorListener
 {
     private static int $_counter = 0;
 
-    public function beforeException(Event $event, Dispatcher $dispatcher, \Exception $exception)
+    public function beforeException(Event $event, Dispatcher $dispatcher, \Exception $exception): bool
     {
         if (++self::$_counter > 1) {
             throw $exception;
         }
 
         $dispatcher->getUserOptions()->set('exceptionData', [
-            'class' => \get_class($exception),
+            'class' => $exception::class,
             'message' => $exception->getMessage(),
         ]);
 
         if ($exception instanceof DispatchException) {
-            switch ($exception->getCode()) {
-                case DispatchException::EXCEPTION_INVALID_HANDLER:
-                case DispatchException::EXCEPTION_CYCLIC_ROUTING:
-                    $action = 'internalServerError';
-                    break;
-                case DispatchException::EXCEPTION_HANDLER_NOT_FOUND:
-                case DispatchException::EXCEPTION_ACTION_NOT_FOUND:
-                    $action = 'notFound';
-                    break;
-                case DispatchException::EXCEPTION_INVALID_PARAMS:
-                    $action = 'badRequest';
-                    break;
-                default:
-                    $action = 'unknownError';
-            }
+            $action = match ($exception->getCode()) {
+                DispatchException::EXCEPTION_INVALID_HANDLER, DispatchException::EXCEPTION_CYCLIC_ROUTING => 'internalServerError',
+                DispatchException::EXCEPTION_HANDLER_NOT_FOUND, DispatchException::EXCEPTION_ACTION_NOT_FOUND => 'notFound',
+                DispatchException::EXCEPTION_INVALID_PARAMS => 'badRequest',
+                default => 'unknownError',
+            };
             $dispatcher->forward(['controller' => 'error', 'action' => $action]);
             return false;
         }

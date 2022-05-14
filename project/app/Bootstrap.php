@@ -39,10 +39,8 @@ class Bootstrap
 
         // if an IP requested
         if (is_numeric($tld)) {
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                throw new DomainException('Request a domain name instead of IP');
-            }
-            return env('DEFAULT_DOMAIN');
+            return $_SERVER['REQUEST_METHOD'] === 'GET' ?
+                throw new DomainException('Request a domain name instead of IP') : env('DEFAULT_DOMAIN');
         }
         return $domain;
     }

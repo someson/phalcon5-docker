@@ -22,20 +22,12 @@ class ViewListener extends Injectable
             return true;
         }
 
-        switch ($level) {
-            case View::LEVEL_ACTION_VIEW : // 1
-                $message = 'Action view not found';
-                break;
-            case View::LEVEL_MAIN_LAYOUT : // 5
-                $message = 'Main layout not found';
-                break;
-            default :
-                $message = sprintf('View level %u not found', $level);
-                break;
-        }
-
+        $message = match ($level) {
+            View::LEVEL_ACTION_VIEW => 'Action view not found',
+            View::LEVEL_MAIN_LAYOUT => 'Main layout not found',
+            default => sprintf('View level %u not found', $level),
+        };
         $content = $message . ' in: <strong>' . str_replace('\\', '/', $event->getData()) . '</strong>';
-
         $message = $flash->message('error', $content);
         $view->setContent($message . $view->getContent());
 

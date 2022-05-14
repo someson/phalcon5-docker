@@ -65,7 +65,7 @@ class WebApplication extends Application
             /** @var Dispatcher $dispatcher */
             $dispatcher = $this->getDI()->getShared('dispatcher');
             $dispatcher->getUserOptions()->set('exceptionData', [
-                'class' => \get_class($e),
+                'class' => $e::class,
                 'message' => $e->getMessage(),
             ]);
             return (new Debug())->listen($exceptions = true, $errors = true)->onUncaughtException($e);

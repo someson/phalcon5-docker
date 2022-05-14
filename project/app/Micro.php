@@ -51,7 +51,7 @@ try {
             'errCode' => $code,
             'errMessage' => $message,
             'exceptionData' => (object) [
-                'class' => get_class($e),
+                'class' => $e::class,
                 'message' => $e->getMessage(),
             ],
         ]);

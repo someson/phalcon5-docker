@@ -100,7 +100,7 @@ END;
             echo $exception->getMessage();
             return true;
         }
-        $className = get_class($exception);
+        $className = $exception::class;
         $escapedMessage = $this->escapeString($exception->getMessage());
         $showBackTrace = $this->showBackTrace;
 
