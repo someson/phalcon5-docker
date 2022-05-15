@@ -16,4 +16,11 @@ return [
         'salt' => env('CRYPT_SALT'),
         'key'  => env('CRYPT_KEY'),
     ],
+    'i18n' => [
+        'loader' => [
+            'arguments' => ['path' => TMP_DIR . '/locale/'],
+        ],
+        'collectMissingTranslations' => false,
+        'decorateMissingTranslations' => '[# %s #]',
+    ],
 ];

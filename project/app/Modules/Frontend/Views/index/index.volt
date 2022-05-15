@@ -1,4 +1,4 @@
-<p class="lead mt-5 text-success"><strong>Project structure using Phalcon PHP Framework {{ frameworkVersion }}</strong></p>
+<p class="lead mt-5 text-success"><strong>{{ __('global:title', ['frameworkVersion':frameworkVersion]) }}</strong></p>
 <table class="table table-bordered table-hover table-sm">
   <tbody>
   <tr>

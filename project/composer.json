@@ -18,7 +18,8 @@
         "codeception/module-rest": "^1.4",
         "codeception/module-webdriver": "^1.4",
         "codeception/verify": "^0.4",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "someson/phalcon-i18n": "v1.3"
     },
     "autoload": {
         "psr-4": {
