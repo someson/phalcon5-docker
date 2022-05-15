@@ -5,11 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1">
 {{ get_title() }}
-{#{{ tag.getMeta('description') }}#}
-{#{{ tag.getMeta('keywords') }}#}
-{#{{ tag.getMeta('robots') }}#}
-{#{{ tag.getCanonical() }}#}
-{#{{ tag.getAlternate() }}#}
 <link rel="shortcut icon" href="/assets/favicon.ico">
 {% if assets.has('headerCss') %}{{ assets.outputCss('headerCss') }}{% endif %}
 </head>

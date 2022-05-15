@@ -1,0 +1,17 @@
+actor: UnitTester
+bootstrap: _bootstrap.php
+modules:
+    enabled:
+        - Asserts
+        - Filesystem
+        - \Helper\Unit
+        - Phalcon5:
+              bootstrap: 'tests/config/bootstrap.php'
+    step_decorators: ~
+env:
+    test:
+        modules:
+            enabled:
+                - Phalcon4:
+                      site:
+                          %DEFAULT_DOMAIN%
