@@ -21,7 +21,6 @@ class ViewListener extends Injectable
         if ($level === View::LEVEL_LAYOUT) {
             return true;
         }
-
         $message = match ($level) {
             View::LEVEL_ACTION_VIEW => 'Action view not found',
             View::LEVEL_MAIN_LAYOUT => 'Main layout not found',

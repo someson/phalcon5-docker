@@ -17,7 +17,7 @@
 <footer class="footer mt-auto py-3">
   <div class="container">
     <span class="text-muted">
-      <p><a href="https://github.com/someson/phalcon5-docker">https://github.com/someson/phalcon5-docker</a></p>
+      <a href="https://github.com/someson/phalcon5-docker">https://github.com/someson/phalcon5-docker</a>
     </span>
   </div>
 </footer>

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Frontend;
 
-use App\Dispatcher;
+use App\Shared\Dispatcher;
 use App\Shared\Listeners\ErrorListener;
 use App\Shared\Listeners\ViewListener;
 use Phalcon\Di\Di;

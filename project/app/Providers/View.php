@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Env;
+use App\Shared\View as ExtendedView;
 use App\Shared\VoltFunctions;
-use App\View as ExtendedView;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;

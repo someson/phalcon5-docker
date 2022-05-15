@@ -2,7 +2,7 @@
 
 namespace App\Shared\Controllers;
 
-use App\Dispatcher;
+use App\Shared\Dispatcher;
 use Phalcon\Http\Message\ResponseStatusCodeInterface as StatusCode;
 use Phalcon\Mvc\View;
 

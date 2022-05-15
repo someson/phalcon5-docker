@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Shared;
 
 use Phalcon\Mvc\Dispatcher as BaseDispatcher;
 use Phalcon\Support\Collection;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Shared;
 
 use Phalcon\Mvc\View as PhalconView;
 

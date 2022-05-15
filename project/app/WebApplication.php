@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Shared\Debug;
+use App\Shared\Dispatcher;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Http\ResponseInterface;

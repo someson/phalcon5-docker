@@ -2,7 +2,7 @@
 
 namespace App\Shared\Listeners;
 
-use App\Dispatcher;
+use App\Shared\Dispatcher;
 use Phalcon\Dispatcher\Exception as DispatchException;
 use Phalcon\Events\Event;
 

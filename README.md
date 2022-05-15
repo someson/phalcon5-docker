@@ -8,13 +8,11 @@ $ docker-compose up -d --build
 ```
 
 - add to your ```[...]/etc/hosts```
-
 ```sh
 127.0.0.1 phalcon5.test
 ```
 
 - composer update from the host:
-
 ```sh
 $ docker-compose exec app-service composer install
 ```

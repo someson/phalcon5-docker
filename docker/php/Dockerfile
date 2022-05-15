@@ -1,6 +1,8 @@
 FROM php:8.0-fpm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libzip-dev \
+    zip \
     libssl-dev \
     git \
     libicu-dev \
@@ -13,6 +15,7 @@ RUN set -xe \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
     && docker-php-ext-configure intl --enable-intl \
     && docker-php-ext-install -j$(nproc) \
+        zip \
         calendar \
         intl \
         pdo_mysql \
