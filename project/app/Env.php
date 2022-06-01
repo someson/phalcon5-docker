@@ -53,11 +53,7 @@ class Env
                 sprintf('Unable to read the environment file at %s.', $this->_filePath)
             );
         }
-        $autodetect = ini_get('auto_detect_line_endings');
-        ini_set('auto_detect_line_endings', '1');
         $lines = file($this->_filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        ini_set('auto_detect_line_endings', $autodetect);
-
         foreach ($lines as $line) {
             self::put($line);
         }

@@ -3,6 +3,10 @@
 set_time_limit(0);
 error_reporting(E_ALL);
 
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_strict_mode', 1);
+ini_set('session.sid_length', 32);
+
 $dir = dirname(__DIR__);
 
 require_once $dir . '/app/Constants.php';
