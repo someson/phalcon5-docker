@@ -6,7 +6,6 @@ use App\Shared\Debug;
 use App\Shared\Dispatcher;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application;
 
 class WebApplication extends Application
@@ -48,12 +47,7 @@ class WebApplication extends Application
 
     public function handle(string $uri)
     {
-        if ($api = (stripos(trim($uri, '/ '), 'api/') === 0)) {
-            $this->useImplicitView(false);
-        }
-        /** @var ResponseInterface|false $response */
-        $response = parent::handle($uri);
-        if (! $api && $response instanceof ResponseInterface) {
+        if ($response = parent::handle($uri)) {
             echo $response->getContent();
         }
     }
