@@ -2,24 +2,20 @@
 
 namespace App\Shared\Listeners;
 
+use App\Env;
 use App\Shared\Dispatcher;
 use Phalcon\Dispatcher\Exception as DispatchException;
 use Phalcon\Events\Event;
+use Phalcon\Support\Collection;
 
 class ErrorListener
 {
-    private static int $_counter = 0;
-
-    public function beforeException(Event $event, Dispatcher $dispatcher, \Exception $exception): bool
+    public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception)
     {
-        if (++self::$_counter > 1) {
-            throw $exception;
-        }
-
-        $dispatcher->getUserOptions()->set('exceptionData', [
-            'class' => $exception::class,
+        $dispatcher->getUserOptions()->set('exceptionData', new Collection([
+            'class' => \get_class($exception),
             'message' => $exception->getMessage(),
-        ]);
+        ]));
 
         if ($exception instanceof DispatchException) {
             $action = match ($exception->getCode()) {
@@ -30,6 +26,13 @@ class ErrorListener
             };
             $dispatcher->forward(['controller' => 'error', 'action' => $action]);
             return false;
+        }
+
+        if ($exception instanceof \Exception) {
+            if (Env::isProduction()) {
+                return $exception;
+            }
+            $event->stop();
         }
 
         return $event->isStopped();

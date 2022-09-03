@@ -18,9 +18,4 @@ $domain = $moduleConfig['site'] ?? env('DEFAULT_DOMAIN');
 $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'] ?? BASE_DIR;
 $_SERVER['SERVER_NAME']   = $_SERVER['SERVER_NAME'] ?? $domain ?? env('DEFAULT_DOMAIN');
 
-//$config = \Codeception\Configuration::config();
-//$settings = \Codeception\Configuration::suiteSettings('unit', $config);
-//$suiteSettings = \Codeception\Configuration::suiteEnvironments('unit');
-
-//return (new \App\Bootstrap($domain))->getApplication();
 return new \Phalcon\Mvc\Application(new \Phalcon\Di\FactoryDefault());

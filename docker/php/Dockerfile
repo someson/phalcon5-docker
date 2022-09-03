@@ -21,7 +21,9 @@ RUN set -xe \
         pdo_mysql \
     && pecl clear-cache
 
-ENV PHALCON_VERSION=5.0.0RC2 \
+# pecl install phalcon-5.0.0RC4
+
+ENV PHALCON_VERSION=5.0.0RC4 \
     PSR_VERSION=1.1.0
 RUN set -xe \
     && curl -LO https://github.com/jbboehr/php-psr/archive/refs/tags/v${PSR_VERSION}.tar.gz \
@@ -46,4 +48,4 @@ COPY fpm/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN touch /var/log/remote.log && chmod 666 /var/log/remote.log
 
-WORKDIR /var/www/html
+WORKDIR /var/www

@@ -10,7 +10,6 @@ composer.lock
 node_modules/
 tests/_output/*
 ide/
-!/.env
 /storage/*
 !/storage/migrations
 !/storage/locale

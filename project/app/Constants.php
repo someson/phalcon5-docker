@@ -4,6 +4,7 @@ const DS = DIRECTORY_SEPARATOR;
 
 defined('BASE_DIR')   || define('BASE_DIR', dirname(__DIR__));
 defined('APP_DIR')    || define('APP_DIR',    BASE_DIR . DS . 'app');     // app
+defined('LIB_DIR')    || define('LIB_DIR',    BASE_DIR . DS . 'library'); // library
 defined('MODULE_DIR') || define('MODULE_DIR', APP_DIR  . DS . 'Modules'); // app/Modules
 defined('SHARED_DIR') || define('SHARED_DIR', APP_DIR  . DS . 'Shared');  // app/Shared
 

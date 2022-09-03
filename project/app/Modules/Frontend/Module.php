@@ -14,12 +14,12 @@ class Module implements ModuleDefinitionInterface
 {
     public const SESSION_PREFIX = 'F_';
 
-    public function registerAutoloaders(DiInterface $container = null): void
-    {
-    }
+    public function registerAutoloaders(DiInterface $container = null): void {}
 
     public function registerServices(DiInterface $container): void
     {
+        //throw new \Exception('oops');
+
         /** @var Manager $eventsManager */
         $eventsManager = $container->getShared('eventsManager');
         $eventsManager->attach('view', new ViewListener());
@@ -37,7 +37,7 @@ class Module implements ModuleDefinitionInterface
         $container['session']->setOptions(['uniqueId' => self::SESSION_PREFIX]);
         $container->getService('session')->resolve();
 
-        $container['view']->addViewsDir([__DIR__.'/Views/', SHARED_DIR.'/Views/']);
+        $container['view']->addViewsDir([__DIR__ . '/Views/', SHARED_DIR . '/Views/']);
         $container['view']->setEventsManager($eventsManager);
         $container['view']->setVar('site', $container['config']->get('app', []));
 
