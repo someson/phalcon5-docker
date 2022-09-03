@@ -7,18 +7,19 @@ use App\Shared\Dispatcher;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Application;
+use Phalcon\Support\Collection;
 
 class WebApplication extends Application
 {
     public function __construct(DiInterface $di)
     {
+        parent::__construct($di);
         $this->registerModules([
             'frontend' => [
                 'className' => Modules\Frontend\Module::class,
                 'routes' => Modules\Frontend\Routes::class,
             ],
         ]);
-        parent::__construct($di);
     }
 
     public function getProviders(): array
@@ -27,6 +28,7 @@ class WebApplication extends Application
             Providers\Config::class,
             Providers\Cookies::class,
             Providers\Crypt::class,
+            Providers\Database::class,
             Providers\Filter::class,
             Providers\Flash::class,
             Providers\Logger::class,
@@ -48,7 +50,7 @@ class WebApplication extends Application
     public function handle(string $uri)
     {
         if ($response = parent::handle($uri)) {
-            echo $response->getContent();
+            echo $response->getContent(); // $response->send();
         }
     }
 
@@ -60,10 +62,10 @@ class WebApplication extends Application
         if (Env::isDevelopment()) {
             /** @var Dispatcher $dispatcher */
             $dispatcher = $this->getDI()->getShared('dispatcher');
-            $dispatcher->getUserOptions()->set('exceptionData', [
+            $dispatcher->getUserOptions()->set('exceptionData', new Collection([
                 'class' => \get_class($e),
                 'message' => $e->getMessage(),
-            ]);
+            ]));
             return (new Debug())->listen($exceptions = true, $errors = true)->onUncaughtException($e);
         }
         require_once 'Micro.php';

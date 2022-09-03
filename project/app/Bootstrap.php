@@ -3,32 +3,44 @@
 namespace App;
 
 use DomainException;
+use Phalcon\Application\AbstractApplication;
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Support\Registry;
 
 class Bootstrap
 {
-    private WebApplication $_app;
+    /** @var CliApplication|WebApplication */
+    private AbstractApplication $_app;
 
-    public function __construct()
+    public function __construct(bool $autoDetect = true)
     {
         $this->defineConstants($this->identify());
+        $isCli = $autoDetect && $this->isCli();
+        $container = $isCli ? new FactoryDefault\Cli : new FactoryDefault;
 
-        $di = new FactoryDefault();
-        Di::setDefault($di);
+        Di::setDefault($container);
 
-        $this->_app = new WebApplication($di);
-        $this->_app->registerServices($di);
+        $this->_app = $isCli ? new CliApplication($container) : new WebApplication($container);
+        $this->_app->registerServices($container);
 
         $registry = new Registry();
         $registry->set('modules', $this->_app->getModules());
-        $di->set('registry', $registry);
+        $container->set('registry', $registry);
     }
 
-    public function getApplication(): WebApplication
+    /**
+     * @return CliApplication|WebApplication
+     */
+    public function getApplication()
     {
         return $this->_app;
+    }
+
+    public function isCli(): bool
+    {
+        return !isset($_SERVER['SERVER_SOFTWARE'])
+            && (\PHP_SAPI === 'cli' || (is_numeric($_SERVER['argc']) && $_SERVER['argc'] > 0));
     }
 
     public function identify(): string

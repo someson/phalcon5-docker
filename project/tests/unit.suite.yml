@@ -12,6 +12,6 @@ env:
     test:
         modules:
             enabled:
-                - Phalcon4:
+                - Phalcon5:
                       site:
                           %DEFAULT_DOMAIN%

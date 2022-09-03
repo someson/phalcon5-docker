@@ -2,7 +2,7 @@
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://supportukrainenow.org/)
 [![Russian Warship Go Fuck Yourself](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/RussianWarship.svg)](https://stand-with-ukraine.pp.ua)
 
-## Setup
+# Setup
 
 ```sh
 $ git clone --branch php74 https://github.com/someson/phalcon5-docker.git .
@@ -21,13 +21,68 @@ $ docker-compose up -d --build
 $ docker-compose exec app-service composer install
 ```
 
-## Containers:
+# CLI
 
-- **nginx latest (alpine) + ssl + http2**
-    - port 443 by default
+## Run console commands
 
-- **php 7.4.x**
-    - fpm port 9000
-    - xdebug 3 (port 9003)
-    - apcu
-    - intl
+```bash
+$ php ./scripts/cli.php [handler] [action] [param1] [param2] ... [paramN] -v -r -s
+```
+or for docker
+```bash
+$ docker-compose exec [service-name] php ./scripts/cli.php [handler] [action] [param1] [param2] ... [paramN] -v -r -s
+```
+Example:
+```bash
+$ docker-compose exec app-service php ./scripts/cli.php main main -v -r -s
+```
+- ```-s``` = single instance allowed
+- ```-v``` = verbose info
+- ```-r``` = recording the process into several resources of your choice (MySQL, Logs, ...)
+
+
+## CLI Debugging (xdebug 3.x) in PhpStorm under docker
+
+2 aspects to realize:
+1. `-dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes` has to be in called console command
+2. `docker-compose.yml` has to have ENV variable in PHP container: `PHP_IDE_CONFIG=serverName=phalcon5.test:80`, where `phalcon5.test:80` is your Settings > PHP > Servers > Name value.
+
+where docker host for Windows or Linux:
+> host.docker.internal
+
+for MacOS:
+> docker.for.mac.host.internal
+
+Result:
+
+```bash
+$ docker-compose exec app-service php -dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes ./scripts/cli.php main main -v -s -r
+```
+with started listenings for PHP debug connections, certainly.
+
+
+# Devtools (*not compatible with Phalcon 5*)
+
+* available commands
+```bash
+$ phalcon
+```
+
+* dev-tools commands
+```bash
+$ phalcon [domain] --help
+```
+
+* generate all models
+```bash
+$ phalcon all-models --namespace=App\Shared\Models\Base --extends=\Library\Models\ModelBase [--force]
+```
+
+* generate model modelName
+```bash
+$ phalcon model modelName --namespace=App\Shared\Models\Base --extends=\Library\Models\ModelBase [--force]
+```
+or docker:
+```bash
+$ [winpty] docker-compose exec app-service phalcon model table_name --namespace=App\\Shared\\Models\\Base --extends=\\Library\\Models\\ModelBase
+```

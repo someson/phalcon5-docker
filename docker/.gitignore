@@ -1,1 +1,2 @@
 /nginx/sites-enabled/*.conf
+/mysql/database/*

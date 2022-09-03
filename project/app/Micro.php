@@ -49,11 +49,10 @@ try {
         $view = $app->view;
         return $view->render('error', [
             'errCode' => $code,
-            'errMessage' => $message,
-            'exceptionData' => (object) [
+            'exceptionData' => new \Phalcon\Support\Collection([
                 'class' => get_class($e),
                 'message' => $e->getMessage(),
-            ],
+            ]),
         ]);
     };
 
