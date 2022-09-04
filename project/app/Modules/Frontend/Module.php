@@ -3,10 +3,8 @@
 namespace App\Modules\Frontend;
 
 use App\Shared\Dispatcher;
-use App\Shared\Listeners\ErrorListener;
-use App\Shared\Listeners\ViewListener;
-use Phalcon\Di\Di;
-use Phalcon\Di\DiInterface;
+use App\Shared\Listeners\{ ErrorListener, ViewListener };
+use Phalcon\Di\{ Di, DiInterface };
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 

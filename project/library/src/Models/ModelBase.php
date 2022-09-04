@@ -53,7 +53,7 @@ class ModelBase extends Model
                 case Column::TYPE_DECIMAL:
                 case Column::TYPE_DOUBLE:
                 case Column::TYPE_FLOAT:
-                $this->$field = (float) $this->$field;
+                    $this->$field = (float) $this->$field;
                     break;
                 default:
                     break;
@@ -104,12 +104,12 @@ class ModelBase extends Model
 
     public static function getConnection(): AdapterInterface
     {
-        return Di::getDefault()->getShared('db');
+        return Di::getDefault()?->getShared('db');
     }
 
     public static function modelsManager(): Manager
     {
-        return Di::getDefault()->getShared('modelsManager');
+        return Di::getDefault()?->getShared('modelsManager');
     }
 
     /**

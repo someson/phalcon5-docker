@@ -18,7 +18,7 @@ class Task extends Base\Task
 
         $params = [];
         foreach ($argv as $value) {
-            if (strpos($value, '-') === false) {
+            if (! str_contains($value, '-')) {
                 $params[] = $value;
             }
         }

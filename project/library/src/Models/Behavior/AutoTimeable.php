@@ -14,7 +14,7 @@ class AutoTimeable extends Behavior
      * @param ModelInterface|Model $model
      * @throws Exception
      */
-    public function notify(string $type, ModelInterface $model): void
+    public function notify(string $type, ModelInterface|Model $model): void
     {
         switch ($type) {
             case 'beforeValidationOnCreate':

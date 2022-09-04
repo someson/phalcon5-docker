@@ -14,7 +14,7 @@ class AuthAwareness
 
     public function getCollection(): \ArrayObject
     {
-        if (! $this->_collection) {
+        if (! isset($this->_collection)) {
             $this->_collection = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
             if (isset($_SESSION[$this->_index]) && \is_array($_SESSION[$this->_index])) {
                 $this->_collection->exchangeArray($_SESSION[$this->_index]);

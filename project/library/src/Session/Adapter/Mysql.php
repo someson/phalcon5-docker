@@ -34,92 +34,93 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
     }
 
     /**
-     * @param string $sessionId
+     * @param string $id
      * @return bool
      * @throws \Phalcon\Logger\Exception
      */
-    public function destroy($sessionId): bool
+    public function destroy(string $id): bool
     {
-        if ($sessionId && $found = $this->getEntry($sessionId)) {
-            return $this->catchableRun('DELETE FROM session_data WHERE id = ?', [$sessionId]);
+        if ($id && $this->getEntry($id)) {
+            return $this->catchableRun('DELETE FROM session_data WHERE id = ?', [$id]);
         }
         return true;
     }
 
     /**
-     * @param int $maxlifetime
+     * @param int $max_lifetime
      * @return bool
      * @throws \Phalcon\Logger\Exception
      */
-    public function gc($maxlifetime): bool
+    public function gc(int $max_lifetime): bool
     {
         $query = /** @lang sql */ 'DELETE FROM session_data WHERE COALESCE(modified_on, created_on) + ? < UNIX_TIMESTAMP()';
         return $this->catchableRun($query, [
-            $this->options['lifetime'] ?? $maxlifetime ?? (int) ini_get('session.gc_maxlifetime')
+            $this->options['lifetime'] ?? $max_lifetime ?? (int) ini_get('session.gc_maxlifetime')
         ]);
     }
 
     /**
-     * @param string $savePath
+     * @param string $path
      * @param string $name
      * @return bool
      */
-    public function open($savePath, $name): bool
+    public function open(string $path, string $name): bool
     {
         return true;
     }
 
     /**
-     * @param string $sessionId
+     * @param string $id
      * @return string
      */
-    public function read($sessionId): string
+    public function read(string $id): string
     {
-        $found = $this->getEntry($sessionId);
+        $found = $this->getEntry($id);
         return $found['data'] ?? '';
     }
 
     /**
-     * @param string $sessionId
-     * @param string $sessionData
+     * @param string $id
+     * @param string $data
      * @return bool
+     * @throws \Phalcon\Logger\Exception
      */
-    public function write($sessionId, $sessionData): bool
+    public function write(string $id, string $data): bool
     {
-        if (! $found = $this->getEntry($sessionId)) {
+        if (! $this->getEntry($id)) {
             $query = 'INSERT INTO session_data (id, data, created_on) VALUES (?, ?, UNIX_TIMESTAMP())';
-            return $this->catchableRun($query, [$sessionId, $sessionData]);
+            return $this->catchableRun($query, [$id, $data ?: null]);
         }
         $query = 'UPDATE session_data SET data = ?, modified_on = UNIX_TIMESTAMP() WHERE id = ?';
-        return $this->catchableRun($query, [$sessionData, $sessionId]);
+        return $this->catchableRun($query, [$data ?: null, $id]);
     }
 
     /**
-     * @param string $sessionId
+     * @param string $id
      * @return bool
      */
-    public function validateId($sessionId): bool
+    public function validateId(string $id): bool
     {
-        return strlen($sessionId) === (int) ini_get('session.sid_length');
+        return strlen($id) === (int) ini_get('session.sid_length');
     }
 
     /**
      * Called if the dataset is not modified
      * @see https://wiki.php.net/rfc/session-read_only-lazy_write
-     * @param $sessionId
-     * @param $sessionData
+     * @param string $id
+     * @param string $data
      * @return bool
      * @throws \Phalcon\Logger\Exception
      */
-    public function updateTimestamp($sessionId, $sessionData): bool
+    public function updateTimestamp(string $id, string $data): bool
     {
-        if (! $found = $this->getEntry($sessionId)) {
+        if (! $found = $this->getEntry($id)) {
             return true;
         }
         $delay = isset($this->options['ignoring_delay']) ? (int) $this->options['ignoring_delay'] : 0;
         if (! $delay || (time() - (int) $found['modified_on']) > $delay) {
             $query = 'UPDATE session_data SET modified_on = UNIX_TIMESTAMP() WHERE id = ?';
-            return $this->catchableRun($query, [$sessionId]);
+            return $this->catchableRun($query, [$id]);
         }
         return true;
     }

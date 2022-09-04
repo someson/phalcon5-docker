@@ -40,7 +40,6 @@ services:
             XDEBUG_REMOTE_HOST: host.docker.internal
         ports:
             - "9000:9000"
-            - "8000:8000"
         volumes:
             - ./project:/var/www
             - ~/composer:/root/.composer

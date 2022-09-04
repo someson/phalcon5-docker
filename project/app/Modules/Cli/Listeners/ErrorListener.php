@@ -19,21 +19,12 @@ class ErrorListener
         ]));
 
         if ($exception instanceof DispatchException) {
-            switch ($exception->getCode()) {
-                case BaseException::EXCEPTION_INVALID_HANDLER:
-                case BaseException::EXCEPTION_CYCLIC_ROUTING:
-                    $action = 'internalServerError';
-                    break;
-                case BaseException::EXCEPTION_HANDLER_NOT_FOUND:
-                case BaseException::EXCEPTION_ACTION_NOT_FOUND:
-                    $action = 'notFound';
-                    break;
-                case BaseException::EXCEPTION_INVALID_PARAMS:
-                    $action = 'badRequest';
-                    break;
-                default:
-                    $action = 'unknownError';
-            }
+            $action = match ($exception->getCode()) {
+                BaseException::EXCEPTION_INVALID_HANDLER, BaseException::EXCEPTION_CYCLIC_ROUTING => 'internalServerError',
+                BaseException::EXCEPTION_HANDLER_NOT_FOUND, BaseException::EXCEPTION_ACTION_NOT_FOUND => 'notFound',
+                BaseException::EXCEPTION_INVALID_PARAMS => 'badRequest',
+                default => 'unknownError',
+            };
             $dispatcher->forward(['task' => 'error', 'action' => $action]);
             return true;
         }

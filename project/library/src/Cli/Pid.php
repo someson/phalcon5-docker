@@ -9,13 +9,11 @@ class Pid
     /** @var resource */
     protected $_fp;
 
-    protected string $_pidFile;
     protected bool $_isRemoved;
     protected bool $_isCreated;
 
-    public function __construct(string $filePath)
+    public function __construct(protected string $_pidFile)
     {
-        $this->_pidFile = $filePath;
         $this->_isCreated = false;
         $this->_isRemoved = false;
     }

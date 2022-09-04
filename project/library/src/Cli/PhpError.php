@@ -4,12 +4,7 @@ namespace Library\Cli;
 
 class PhpError
 {
-    protected Reporter $_reporter;
-
-    public function __construct(Reporter $persister)
-    {
-        $this->_reporter = $persister;
-    }
+    public function __construct(protected Reporter $_reporter) {}
 
     /**
      * @param int|null $errNo

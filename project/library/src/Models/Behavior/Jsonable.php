@@ -14,7 +14,7 @@ class Jsonable extends Behavior
      * @param ModelInterface|Model $model
      * @throws \JsonException
      */
-    public function notify(string $type, ModelInterface $model): void
+    public function notify(string $type, ModelInterface|Model $model): void
     {
         /** @var Model $model */
         $options = $this->getOptions();

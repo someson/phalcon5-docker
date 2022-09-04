@@ -2,12 +2,9 @@
 
 namespace Library\Cli;
 
-use Library\Cli\Interfaces\Reportable;
-use Library\Cli\Traits\Configurable;
-
-abstract class AbstractAdapter implements Reportable
+abstract class AbstractAdapter implements Interfaces\Reportable
 {
-    use Configurable;
+    use Traits\Configurable;
 
     /**
      * {@inheritDoc}

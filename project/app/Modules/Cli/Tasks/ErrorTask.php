@@ -21,17 +21,17 @@ class ErrorTask extends Task
         return $unknown;
     }
 
-    public function notFoundAction()
+    public function notFoundAction(): void
     {
         Output::error($this->_getExceptionMessage());
     }
 
-    public function internalServerErrorAction()
+    public function internalServerErrorAction(): void
     {
         Output::error(sprintf('Internal Server Error. %s', $this->_getExceptionMessage()));
     }
 
-    public function badRequestAction()
+    public function badRequestAction(): void
     {
         Output::error(sprintf('Bad Request. %s', $this->_getExceptionMessage()));
     }

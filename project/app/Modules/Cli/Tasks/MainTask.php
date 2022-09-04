@@ -12,7 +12,7 @@ class MainTask extends \Phalcon\Cli\Task
      * @return void
      * @throws \ReflectionException
      */
-    public function mainAction()
+    public function mainAction(): void
     {
         $annotations = (new AnnotationsFactory)->newInstance('memory', [
             'prefix'   => 'annotations',
@@ -26,10 +26,10 @@ class MainTask extends \Phalcon\Cli\Task
             }
             $task = $file->getBasename('.php');
             $reflection = new \ReflectionClass(sprintf('%s\\%s', __NAMESPACE__, $task));
-            $methods = array_filter($reflection->getMethods(), function($item) use ($task) {
+            $methods = array_filter($reflection->getMethods(), static function($item) use ($task) {
                 return $item->class === __NAMESPACE__ . '\\' . $task
                     && $item->name !== 'initialize'
-                    && substr($item->name, -6) === 'Action';
+                    && str_ends_with($item->name, 'Action');
             });
 
             $i = 0;

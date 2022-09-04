@@ -59,3 +59,9 @@ Result:
 $ docker-compose exec app-service php -dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes ./scripts/cli.php main main -v -s -r
 ```
 with started listenings for PHP debug connections, certainly.
+
+# Tests
+
+````bash
+$ docker-compose exec app-service vendor/bin/codecept run
+```

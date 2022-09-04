@@ -16,29 +16,18 @@ class MysqlExtended extends Mysql
                         throw new Exception('DATE_INTERVAL requires 2 parameters');
                     }
 
-                    switch ($expression['arguments'][1]['value']) {
-                        case "'MICROSECOND'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MICROSECOND';
-                        case "'SECOND'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' SECOND';
-                        case "'MINUTE'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MINUTE';
-                        case "'HOUR'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' HOUR';
-                        case "'DAY'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' DAY';
-                        case "'WEEK'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' WEEK';
-                        case "'MONTH'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MONTH';
-                        case "'QUARTER'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' QUARTER';
-                        case "'YEAR'":
-                            return 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' YEAR';
-                        default:
-                            throw new Exception('DATE_INTERVAL unit is not supported');
-                    }
-                    break;
+                    return match ($expression['arguments'][1]['value']) {
+                        "'MICROSECOND'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MICROSECOND',
+                        "'SECOND'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' SECOND',
+                        "'MINUTE'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MINUTE',
+                        "'HOUR'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' HOUR',
+                        "'DAY'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' DAY',
+                        "'WEEK'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' WEEK',
+                        "'MONTH'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' MONTH',
+                        "'QUARTER'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' QUARTER',
+                        "'YEAR'" => 'INTERVAL ' . $this->getSqlExpression($expression['arguments'][0]) . ' YEAR',
+                        default => throw new Exception('DATE_INTERVAL unit is not supported'),
+                    };
 
                 case 'FULLTEXT_MATCH':
                     if (\count($expression['arguments']) < 2) {

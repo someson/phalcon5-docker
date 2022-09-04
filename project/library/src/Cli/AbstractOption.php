@@ -2,10 +2,9 @@
 
 namespace Library\Cli;
 
-use Library\Cli\Interfaces\CommandOption;
 use Phalcon\Config\Config;
 
-abstract class AbstractOption implements CommandOption
+abstract class AbstractOption implements Interfaces\CommandOption
 {
     protected string $_command;
     protected bool $_enabled;
