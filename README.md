@@ -62,6 +62,6 @@ with started listenings for PHP debug connections, certainly.
 
 # Tests
 
-````bash
+```bash
 $ docker-compose exec app-service vendor/bin/codecept run
 ```
