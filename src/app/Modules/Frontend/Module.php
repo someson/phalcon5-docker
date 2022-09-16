@@ -16,8 +16,6 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $container): void
     {
-        //throw new \Exception('oops');
-
         /** @var Manager $eventsManager */
         $eventsManager = $container->getShared('eventsManager');
         $eventsManager->attach('view', new ViewListener());

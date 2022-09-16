@@ -4,7 +4,7 @@ services:
     # nginx
     nginx-service:
         build:
-            context: docker/nginx
+            context: .docker/nginx
             dockerfile: Dockerfile
         container_name: p5-webserver
         ports:
@@ -31,7 +31,7 @@ services:
     # php
     app-service:
         build:
-            context: docker
+            context: .docker
             dockerfile: php/Dockerfile
         container_name: p5-app
         environment:

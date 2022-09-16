@@ -41,11 +41,7 @@ class CliApplication extends Application
         ];
     }
 
-    /**
-     * @param array|null $arguments
-     * @return void
-     */
-    public function handle(?array $arguments = null)
+    public function handle(?array $arguments = null): void
     {
         /** @var Manager $eventaManager */
         $eventaManager = $this->getDI()->getShared('eventsManager');

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use InvalidArgumentException;
+
 class Env
 {
     public const PRODUCTION  = 'production';
@@ -44,12 +46,12 @@ class Env
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function load(): void
     {
         if (! file_exists($this->_filePath) || ! is_readable($this->_filePath)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Unable to read the environment file at %s.', $this->_filePath)
             );
         }

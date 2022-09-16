@@ -10,19 +10,11 @@ class Reporter
     protected $_adapters;
     protected array $_results;
 
-    /**
-     * Persister constructor.
-     * @param callable $adapters
-     */
     public function __construct(callable $adapters)
     {
         $this->_adapters = $adapters;
     }
 
-    /**
-     * @param string $adapterClass
-     * @return bool
-     */
     public function has(string $adapterClass): bool
     {
         $adapters = $this->getAdapters();
@@ -59,10 +51,6 @@ class Reporter
         }
     }
 
-    /**
-     * @param string $adapterClass
-     * @return Interfaces\Reportable
-     */
     public function getAdapter(string $adapterClass): Interfaces\Reportable
     {
         $adapters = $this->getAdapters();

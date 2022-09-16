@@ -10,14 +10,13 @@ class Notification implements \JsonSerializable
     private array $_collection;
     private bool $_status;
 
-    /** @var array|string */
-    private $_message;
+    private string|array $_message;
 
     /**
      * @param bool $type
      * @param array|string $message
      */
-    private function __construct(bool $type, $message)
+    private function __construct(bool $type, array|string $message)
     {
         $this->_status = $type;
         $this->_collection = ['success' => $this->_status];
@@ -72,7 +71,7 @@ class Notification implements \JsonSerializable
     /**
      * @return array|string
      */
-    public function getMessage()
+    public function getMessage(): array|string
     {
         return $this->_message;
     }

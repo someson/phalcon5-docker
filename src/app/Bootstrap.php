@@ -3,7 +3,6 @@
 namespace App;
 
 use DomainException;
-use Phalcon\Application\AbstractApplication;
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Support\Registry;
@@ -11,7 +10,7 @@ use Phalcon\Support\Registry;
 class Bootstrap
 {
     /** @var CliApplication|WebApplication */
-    private AbstractApplication $_app;
+    private WebApplication|CliApplication $_app;
 
     public function __construct(bool $autoDetect = true)
     {
@@ -29,10 +28,7 @@ class Bootstrap
         $container->set('registry', $registry);
     }
 
-    /**
-     * @return CliApplication|WebApplication
-     */
-    public function getApplication()
+    public function getApplication(): WebApplication|CliApplication
     {
         return $this->_app;
     }
@@ -49,8 +45,7 @@ class Bootstrap
         $parts = explode('.', $domain);
         $tld = strtolower(end($parts));
 
-        // if an IP requested
-        if (is_numeric($tld)) {
+        if (is_numeric($tld)) {  // if an IP requested
             return $_SERVER['REQUEST_METHOD'] === 'GET' ?
                 throw new DomainException('Request a domain name instead of IP') : env('DEFAULT_DOMAIN');
         }

@@ -10,7 +10,7 @@ use Phalcon\Support\Collection;
 
 class ErrorListener
 {
-    public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception)
+    public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception): \Throwable|\Exception|bool
     {
         $dispatcher->getUserOptions()->set('exceptionData', new Collection([
             'class' => \get_class($exception),

@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use Library\Db\Dialect\MysqlExtended;
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception as ConfigException;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Db\Adapter\PdoFactory;
-use Library\Db\Dialect\MysqlExtended;
 
 class DatabaseCli implements ServiceProviderInterface
 {
