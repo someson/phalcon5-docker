@@ -4,22 +4,22 @@ services:
     # nginx
     nginx-service:
         build:
-            context: docker/nginx
+            context: .docker/nginx
             dockerfile: Dockerfile
         container_name: p5-webserver
         ports:
             - "80:80"
             - "443:443"
         volumes:
-            - ./project:/var/www
-            - ./project/storage/logs/nginx:/var/log/nginx:delegated
-            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
-            - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:cached
-            - ./docker/nginx/conf.d/gzip.conf:/etc/nginx/conf.d/gzip.conf:cached
-            - ./docker/nginx/certs:/etc/ssl/certs:cached
-            - ./docker/nginx/sites-enabled:/etc/nginx/sites-enabled:cached
-            - ./docker/nginx/snippets:/etc/nginx/snippets:cached
-            - ./docker/nginx/templates:/etc/nginx/templates:cached
+            - ./src:/var/www
+            - ./src/storage/logs/nginx:/var/log/nginx:delegated
+            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+            - ./.docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:cached
+            - ./.docker/nginx/conf.d/gzip.conf:/etc/nginx/conf.d/gzip.conf:cached
+            - ./.docker/nginx/certs:/etc/ssl/certs:cached
+            - ./.docker/nginx/sites-enabled:/etc/nginx/sites-enabled:cached
+            - ./.docker/nginx/snippets:/etc/nginx/snippets:cached
+            - ./.docker/nginx/templates:/etc/nginx/templates:cached
         env_file:
             - .nginx.env
         depends_on:
@@ -31,7 +31,7 @@ services:
     # php
     app-service:
         build:
-            context: docker
+            context: .docker
             dockerfile: php/Dockerfile
         container_name: p5-app
         environment:
@@ -42,7 +42,7 @@ services:
             - "9000:9000"
             - "8000:8000"
         volumes:
-            - ./project:/var/www
+            - ./src:/var/www
             - ~/composer:/root/.composer
         networks:
             - backend
@@ -54,9 +54,9 @@ services:
         ports:
             - "3307:3306"
         volumes:
-            - ./docker/mysql/cnf:/etc/mysql/conf.d
-            - ./docker/mysql/database:/var/lib/mysql
-            - ./docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+            - ./.docker/mysql/cnf:/etc/mysql/conf.d
+            - ./.docker/mysql/database:/var/lib/mysql
+            - ./.docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
         restart: always
         env_file:
             - .sql.env

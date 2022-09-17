@@ -18,7 +18,7 @@ $ docker-compose up -d --build
 - composer update from the host:
 
 ```sh
-$ docker-compose exec app-service composer install
+$ docker-compose exec app-service composer update
 ```
 
 # CLI
