@@ -4,8 +4,9 @@ namespace App\Modules\Cli\Tasks;
 
 use Library\Cli\Output;
 use Phalcon\Annotations\AnnotationsFactory;
+use Phalcon\Cli\Task as BaseTask;
 
-class MainTask extends \Phalcon\Cli\Task
+class MainTask extends BaseTask
 {
     /**
      * @example $[winpty] docker-compose exec app-service php ./scripts/cli.php main main [-s] [-v] [-r]

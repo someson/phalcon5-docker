@@ -20,7 +20,7 @@
         "codeception/module-rest": "^3.3",
         "codeception/module-webdriver": "^3.1",
         "codeception/verify": "^2.2",
-        "phalcon/ide-stubs": "v5.0.0-RC1",
+        "phalcon/ide-stubs": "^v5.0.0",
         "vlucas/phpdotenv": "^5.4"
     },
     "autoload": {
