@@ -21,9 +21,7 @@ RUN set -xe \
         pdo_mysql \
     && pecl clear-cache
 
-# pecl install phalcon-5.0.0RC4
-
-ENV PHALCON_VERSION=5.0.0RC4 \
+ENV PHALCON_VERSION=5.0.0 \
     PSR_VERSION=1.1.0
 RUN set -xe \
     && curl -LO https://github.com/jbboehr/php-psr/archive/refs/tags/v${PSR_VERSION}.tar.gz \
