@@ -15,7 +15,7 @@ $ docker-compose up -d --build
 127.0.0.1 phalcon5.test
 ```
 
-- composer update from the host:
+There's no `composer.lock` included, so
 
 ```sh
 $ docker-compose exec app-service composer update
@@ -45,13 +45,10 @@ $ docker-compose exec app-service php ./scripts/cli.php main main -v -r -s
 
 2 aspects to realize:
 1. `-dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes` has to be in called console command
-2. `docker-compose.yml` has to have ENV variable in PHP container: `PHP_IDE_CONFIG=serverName=phalcon5.test:80`, where `phalcon5.test:80` is your Settings > PHP > Servers > Name value.
+2. `docker-compose.yml` has to have ENV variable in PHP container: `PHP_IDE_CONFIG=serverName=phalcon5.test`, where `phalcon5.test` is your Settings > PHP > Servers > Name value.
 
 where docker host for Windows or Linux:
 > host.docker.internal
-
-for MacOS:
-> docker.for.mac.host.internal
 
 Result:
 
@@ -61,7 +58,7 @@ $ docker-compose exec app-service php -dxdebug.mode=debug -dxdebug.client_host=h
 with started listenings for PHP debug connections, certainly.
 
 
-# Devtools (*not compatible with Phalcon 5*)
+# Devtools (*not compatible with Phalcon 5 yet*)
 
 * available commands
 ```bash
