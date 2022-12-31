@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
-ENV APCU_VERSION=5.1.21
+ENV APCU_VERSION=5.1.22
 RUN set -xe \
     && pecl install apcu-${APCU_VERSION} xdebug \
     && docker-php-ext-enable xdebug apcu \
@@ -19,7 +19,7 @@ RUN set -xe \
         pdo_mysql \
     && pecl clear-cache
 
-ENV PHALCON_VERSION=5.0.0 \
+ENV PHALCON_VERSION=5.1.3 \
     PSR_VERSION=1.1.0
 RUN set -xe \
     && curl -LO https://github.com/jbboehr/php-psr/archive/refs/tags/v${PSR_VERSION}.tar.gz \
