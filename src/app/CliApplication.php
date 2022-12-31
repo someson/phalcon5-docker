@@ -35,6 +35,7 @@ class CliApplication extends Application
             Providers\Config::class,
             Providers\Crypt::class,
             Providers\DatabaseCli::class,
+            Providers\Filesystem::class,
             Providers\LoggerCli::class,
             Providers\ModelsMetadata::class,
             Providers\RouterCli::class,

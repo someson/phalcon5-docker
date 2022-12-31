@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Env;
-use Library\Traits\TraitFilesystem;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
@@ -31,7 +30,11 @@ class ModelsMetadata implements ServiceProviderInterface
                 if (Env::isProduction()) {
                     $options = $serviceConfig['options'] ?? [];
                     if (isset($serviceConfig['adapter']) && $serviceConfig['adapter'] === 'stream') {
-                        TraitFilesystem::checkOrCreate($serviceConfig['options']['metaDataDir'] ?? null);
+                        if ($dir = $serviceConfig['options']['metaDataDir'] ?? null)  {
+                            /** @var \Symfony\Component\Filesystem\Filesystem $fs */
+                            $fs = $this->getShared('fs');
+                            $fs->mkdir($dir);
+                        }
                         return new Stream($options);
                     }
                     $adapter = '\\Phalcon\\Mvc\\Model\\MetaData\\' . ucfirst($serviceConfig['adapter']);

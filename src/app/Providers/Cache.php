@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Env;
-use Library\Traits\TraitFilesystem;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Cache\{ AdapterFactory, CacheFactory };
@@ -17,12 +17,16 @@ class Cache implements ServiceProviderInterface
         $cacheServices = $config->cache->toArray();
         foreach ($cacheServices as $serviceName => $config) {
             $di->set($serviceName, function() use ($config) {
+                /** @var Di $this */
+
                 $cacheFactory = new CacheFactory(new AdapterFactory(new SerializerFactory()));
                 $cache = $cacheFactory->load($config);
                 if (isset($options['adapter']) && $options['adapter'] === 'stream') {
-                    $dirCreated = TraitFilesystem::checkOrCreate($config['options']['storageDir']);
+                    /** @var \Symfony\Component\Filesystem\Filesystem $fs */
+                    $fs = $this->getShared('fs');
+                    $fs->mkdir($config['options']['storageDir']);
                 }
-                if (isset($dirCreated) && ! Env::isProduction()) {
+                if (! Env::isProduction()) {
                     $cache->clear();
                 }
                 return $cache;

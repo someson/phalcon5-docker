@@ -30,6 +30,7 @@ class WebApplication extends Application
             Providers\Crypt::class,
             Providers\Database::class,
             Providers\Filter::class,
+            Providers\Filesystem::class,
             Providers\Flash::class,
             Providers\Logger::class,
             Providers\Router::class,

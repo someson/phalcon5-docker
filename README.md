@@ -5,20 +5,18 @@
 # Setup
 
 ```sh
-$ git clone --branch php80 https://github.com/someson/phalcon5-docker.git .
+$ git clone --branch php81 https://github.com/someson/phalcon5-docker.git .
 $ docker-compose up -d --build
 ```
 
 - add to your ```[...]/etc/hosts```
 
-```sh
+```text
 127.0.0.1 phalcon5.test
 ```
 
-There's no `composer.lock` included, so
-
 ```sh
-$ docker-compose exec app-service composer update
+$ docker-compose exec app-service composer install
 ```
 
 # CLI

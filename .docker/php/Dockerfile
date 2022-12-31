@@ -1,8 +1,9 @@
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     zip \
+    unzip \
     libssl-dev \
     git \
     libicu-dev \
@@ -17,6 +18,7 @@ RUN set -xe \
         calendar \
         intl \
         pdo_mysql \
+        opcache \
     && pecl clear-cache
 
 ENV PHALCON_VERSION=5.1.3 \

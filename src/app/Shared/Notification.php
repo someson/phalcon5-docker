@@ -14,9 +14,9 @@ class Notification implements \JsonSerializable
 
     /**
      * @param bool $type
-     * @param array|string $message
+     * @param array|string|null $message
      */
-    private function __construct(bool $type, array|string $message)
+    private function __construct(bool $type, array|string|null $message)
     {
         $this->_status = $type;
         $this->_collection = ['success' => $this->_status];

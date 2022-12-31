@@ -7,12 +7,6 @@ use Codeception\Test\Unit;
 
 class NotificationTest extends Unit
 {
-    public function testShouldBeAnInstanceOfNotification()
-    {
-        $result = Notification::success();
-        $this->assertInstanceOf(Notification::class, $result);
-    }
-
     public function testShouldBeFailed()
     {
         $result = Notification::failure();
@@ -28,7 +22,7 @@ class NotificationTest extends Unit
     public function testShouldBeAJson()
     {
         $result = Notification::success()->with(['otherData' => 'value']);
-        $this->assertJson(json_encode($result));
+        $this->assertJson(json_encode($result, JSON_THROW_ON_ERROR));
     }
 
     public function testShouldContainSpecificText()

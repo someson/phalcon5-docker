@@ -6,6 +6,7 @@ use Phalcon\Db\{ Column, Enum };
 use Phalcon\Db\Adapter\Pdo\Mysql as Connection;
 use Phalcon\Logger\Logger;
 use Phalcon\Session\Exception;
+use ReturnTypeWillChange;
 
 class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
@@ -48,10 +49,10 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
 
     /**
      * @param int $max_lifetime
-     * @return bool
+     * @return int|false
      * @throws \Phalcon\Logger\Exception
      */
-    public function gc(int $max_lifetime): bool
+    public function gc(int $max_lifetime): int|false
     {
         $query = /** @lang sql */ 'DELETE FROM session_data WHERE COALESCE(modified_on, created_on) + ? < UNIX_TIMESTAMP()';
         return $this->catchableRun($query, [
