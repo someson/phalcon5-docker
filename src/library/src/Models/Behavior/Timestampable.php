@@ -7,7 +7,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\{ Behavior, Exception };
 
-class AutoTimeable extends Behavior
+class Timestampable extends Behavior
 {
     /**
      * @param string $type

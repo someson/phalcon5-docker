@@ -7,7 +7,7 @@ use Library\Cli\Output;
 class TestTask extends MainTask
 {
     /**
-     * @example $docker-compose exec app-service php ./scripts/cli.php test test [-s] [-v] [-r]
+     * @example $docker-compose exec p5-app php ./scripts/cli.php test test [-s] [-v] [-r]
      * @description(short='(does smth.)')
      * @return void
      */

@@ -15,10 +15,12 @@
   <h1><span class="badge text-bg-danger">{{ errCode }}</span></h1>
 
   {%- if config.debug and exceptionData is defined %}
+  {% for exceptionItem in exceptionData -%}
   <div class="card bg-light mb-3 mt-3 text-center">
-    <div class="card-header"><pre style="margin-bottom:auto;font-size:inherit">{{ exceptionData.class }}</pre></div>
-    <div class="card-body">{{ exceptionData.message }}</div>
+    <div class="card-header"><pre style="margin-bottom:auto;font-size:inherit">{{ exceptionItem.className }}</pre></div>
+    <div class="card-body">{{ exceptionItem.message }}</div>
   </div>
+  {% endfor -%}
   {% endif -%}
 
 </div>

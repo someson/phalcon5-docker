@@ -4,6 +4,7 @@ namespace App\Shared;
 
 use Phalcon\Mvc\View as PhalconView;
 
+#[\AllowDynamicProperties]
 class View extends PhalconView
 {
     public function addViewsDir($directory): self

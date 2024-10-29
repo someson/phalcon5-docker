@@ -2,7 +2,7 @@
 
 namespace App\Shared\Listeners;
 
-use Phalcon\Di\Injectable;
+use App\Shared\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Flash\Direct;
 use Phalcon\Mvc\View;

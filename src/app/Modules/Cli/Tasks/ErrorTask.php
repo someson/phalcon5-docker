@@ -4,7 +4,6 @@ namespace App\Modules\Cli\Tasks;
 
 use Library\Cli\{ Dispatcher, Output };
 use Phalcon\Cli\Task;
-use Phalcon\Support\Collection;
 
 class ErrorTask extends Task
 {
@@ -14,9 +13,9 @@ class ErrorTask extends Task
         /** @var Dispatcher $dispatcher */
         $dispatcher = $this->getDI()->getShared('dispatcher');
         if ($dispatcher->getUserOptions()->has('exceptionData')) {
-            /** @var Collection $exceptionData */
+            /** @var \SplObjectStorage $exceptionData */
             $exceptionData = $dispatcher->getUserOptions()->get('exceptionData');
-            return $exceptionData->get('message', $unknown);
+            return $exceptionData->current()->message ?? $unknown;
         }
         return $unknown;
     }

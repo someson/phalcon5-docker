@@ -1,4 +1,4 @@
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://choosealicense.com/licenses/mit/)
+![GitHub License](https://img.shields.io/github/license/someson/phalcon5-docker)
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://supportukrainenow.org/)
 [![Russian Warship Go Fuck Yourself](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/RussianWarship.svg)](https://stand-with-ukraine.pp.ua)
 
@@ -16,7 +16,7 @@ $ docker-compose up -d --build
 ```
 
 ```sh
-$ docker-compose exec app-service composer install
+$ docker-compose exec p5-app composer install
 ```
 
 # CLI
@@ -32,7 +32,7 @@ $ docker-compose exec [service-name] php ./scripts/cli.php [handler] [action] [p
 ```
 Example:
 ```bash
-$ docker-compose exec app-service php ./scripts/cli.php main main -v -r -s
+$ docker-compose exec p5-app php ./scripts/cli.php main main -v -r -s
 ```
 - ```-s``` = single instance allowed
 - ```-v``` = verbose info
@@ -51,12 +51,20 @@ where docker host for Windows or Linux:
 Result:
 
 ```bash
-$ docker-compose exec app-service php -dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes ./scripts/cli.php main main -v -s -r
+$ docker-compose exec p5-app php -dxdebug.mode=debug -dxdebug.client_host=host.docker.internal -dxdebug.client_port=9003 -dxdebug.start_with_request=yes ./scripts/cli.php main main -v -s -r
 ```
 with started listenings for PHP debug connections, certainly.
 
 # Tests
 
 ```bash
-$ docker-compose exec app-service vendor/bin/codecept run
+$ docker-compose exec p5-app vendor/bin/codecept run
+```
+
+# Troubleshooting
+
+## Docker
+if `... did not complete successfully: exit code: 100`
+```bash
+$ docker image prune -f
 ```

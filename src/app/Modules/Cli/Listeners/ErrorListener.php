@@ -2,21 +2,23 @@
 
 namespace App\Modules\Cli\Listeners;
 
+use App\Shared\ExceptionDto;
 use Library\Cli\Dispatcher;
 use Phalcon\Cli\Task;
 use Phalcon\Cli\Dispatcher\Exception as DispatchException;
 use Phalcon\Dispatcher\Exception as BaseException;
 use Phalcon\Events\Event;
-use Phalcon\Support\Collection;
 
 class ErrorListener
 {
+    /**
+     * @throws BaseException
+     */
     public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception): bool
     {
-        $dispatcher->getUserOptions()->set('exceptionData', new Collection([
-            'class' => \get_class($exception),
-            'message' => $exception->getMessage(),
-        ]));
+        $e = new \SplObjectStorage();
+        $e->attach(new ExceptionDto(\get_class($exception), $exception->getMessage()));
+        $dispatcher->getUserOptions()->set('exceptionData', $e);
 
         if ($exception instanceof DispatchException) {
             $action = match ($exception->getCode()) {

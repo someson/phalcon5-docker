@@ -7,7 +7,7 @@ use Phalcon\Support\Version as BaseVersion;
 class Version extends BaseVersion
 {
     /** @var string Released last Date */
-    private static string $_dateTime = '2022-08-30 17:00';
+    private static string $_dateTime = '2024-10-29 12:00';
 
     /**
      * 1: VERSION_MAJOR
@@ -50,7 +50,8 @@ class Version extends BaseVersion
     public static function releaseHistory(): array
     {
         return [
-            '0.0.1' => '2022-08-30 17:00',
+            '0.0.1' => '2023-03-03 12:00',
+            '0.0.2' => '2024-10-29 12:00',
         ];
     }
 }

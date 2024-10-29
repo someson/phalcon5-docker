@@ -5,7 +5,7 @@ namespace App\Shared\Controllers;
 use App\Shared\Dispatcher;
 use Phalcon\Http\Message\ResponseStatusCodeInterface as StatusCode;
 use Phalcon\Mvc\View;
-use Phalcon\Support\Collection;
+use Phalcon\Tag;
 
 class ErrorController extends ControllerBase
 {
@@ -17,13 +17,13 @@ class ErrorController extends ControllerBase
 
     protected function prepareErrorTemplate(int $statusCode): void
     {
-        \Phalcon\Tag::setTitle($statusCode);
+        Tag::setTitle($statusCode);
         $this->response->resetHeaders()->setStatusCode($statusCode);
 
         /** @var Dispatcher $dispatcher */
         $dispatcher = $this->getDI()->getShared('dispatcher');
         if ($dispatcher->getUserOptions()->has('exceptionData')) {
-            /** @var Collection $exceptionData */
+            /** @var \SplObjectStorage $exceptionData */
             $exceptionData = $dispatcher->getUserOptions()->get('exceptionData');
             $this->view->setVar('exceptionData', $exceptionData);
         }

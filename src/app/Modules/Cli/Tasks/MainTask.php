@@ -9,7 +9,7 @@ use Phalcon\Cli\Task as BaseTask;
 class MainTask extends BaseTask
 {
     /**
-     * @example $[winpty] docker-compose exec app-service php ./scripts/cli.php main main [-s] [-v] [-r]
+     * @example $[winpty] docker-compose exec p5-app php ./scripts/cli.php main main [-s] [-v] [-r]
      * @return void
      * @throws \ReflectionException
      */

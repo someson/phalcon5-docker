@@ -6,7 +6,6 @@ use Phalcon\Db\{ Column, Enum };
 use Phalcon\Db\Adapter\Pdo\Mysql as Connection;
 use Phalcon\Logger\Logger;
 use Phalcon\Session\Exception;
-use ReturnTypeWillChange;
 
 class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
@@ -14,6 +13,9 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
     protected Connection $connection;
     protected ?Logger $logger;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(array $options = [])
     {
         if (! isset($options['connection'])) {
@@ -42,7 +44,7 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
     public function destroy(string $id): bool
     {
         if ($id && $this->getEntry($id)) {
-            return $this->catchableRun('DELETE FROM session_data WHERE id = ?', [$id]);
+            return $this->catchableRun(/* @lang sql */'DELETE FROM session_data WHERE id = ?', [$id]);
         }
         return true;
     }
@@ -56,7 +58,7 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
     {
         $query = /** @lang sql */ 'DELETE FROM session_data WHERE COALESCE(modified_on, created_on) + ? < UNIX_TIMESTAMP()';
         return $this->catchableRun($query, [
-            $this->options['lifetime'] ?? $max_lifetime ?? (int) ini_get('session.gc_maxlifetime')
+            $this->options['lifetime'] ?? $max_lifetime ?: (int) ini_get('session.gc_maxlifetime')
         ]);
     }
 
@@ -89,10 +91,10 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
     public function write(string $id, string $data): bool
     {
         if (! $this->getEntry($id)) {
-            $query = 'INSERT INTO session_data (id, data, created_on) VALUES (?, ?, UNIX_TIMESTAMP())';
+            $query = /** @lang sql */ 'INSERT INTO session_data (id, data, created_on) VALUES (?, ?, UNIX_TIMESTAMP())';
             return $this->catchableRun($query, [$id, $data ?: null]);
         }
-        $query = 'UPDATE session_data SET data = ?, modified_on = UNIX_TIMESTAMP() WHERE id = ?';
+        $query = /** @lang sql */ 'UPDATE session_data SET data = ?, modified_on = UNIX_TIMESTAMP() WHERE id = ?';
         return $this->catchableRun($query, [$data ?: null, $id]);
     }
 
@@ -120,7 +122,7 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
         }
         $delay = isset($this->options['ignoring_delay']) ? (int) $this->options['ignoring_delay'] : 0;
         if (! $delay || (time() - (int) $found['modified_on']) > $delay) {
-            $query = 'UPDATE session_data SET modified_on = UNIX_TIMESTAMP() WHERE id = ?';
+            $query = /** @lang sql */ 'UPDATE session_data SET modified_on = UNIX_TIMESTAMP() WHERE id = ?';
             return $this->catchableRun($query, [$id]);
         }
         return true;
@@ -132,7 +134,7 @@ class Mysql implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerI
      */
     private function getEntry(string $id): array
     {
-        $query = 'SELECT * FROM session_data WHERE id = ?';
+        $query = /** @lang sql */ 'SELECT * FROM session_data WHERE id = ?';
         return $this->connection->fetchOne($query, Enum::FETCH_ASSOC, [$id], [Column::BIND_PARAM_STR]) ?: [];
     }
 

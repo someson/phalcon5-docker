@@ -4,18 +4,17 @@ namespace App\Shared\Listeners;
 
 use App\Env;
 use App\Shared\Dispatcher;
+use App\Shared\ExceptionDto;
 use Phalcon\Dispatcher\Exception as DispatchException;
 use Phalcon\Events\Event;
-use Phalcon\Support\Collection;
 
 class ErrorListener
 {
     public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception): \Throwable|\Exception|bool
     {
-        $dispatcher->getUserOptions()->set('exceptionData', new Collection([
-            'class' => \get_class($exception),
-            'message' => $exception->getMessage(),
-        ]));
+        $e = new \SplObjectStorage();
+        $e->attach(new ExceptionDto(\get_class($exception), $exception->getMessage()));
+        $dispatcher->getUserOptions()->set('exceptionData', $e);
 
         if ($exception instanceof DispatchException) {
             $action = match ($exception->getCode()) {

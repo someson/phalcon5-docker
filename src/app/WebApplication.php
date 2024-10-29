@@ -4,11 +4,12 @@ namespace App;
 
 use App\Shared\Debug;
 use App\Shared\Dispatcher;
+use App\Shared\ExceptionDto;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Application;
-use Phalcon\Support\Collection;
 
+#[\AllowDynamicProperties]
 class WebApplication extends Application
 {
     public function __construct(DiInterface $di)
@@ -63,10 +64,11 @@ class WebApplication extends Application
         if (Env::isDevelopment()) {
             /** @var Dispatcher $dispatcher */
             $dispatcher = $this->getDI()->getShared('dispatcher');
-            $dispatcher->getUserOptions()->set('exceptionData', new Collection([
-                'class' => $e::class,
-                'message' => $e->getMessage(),
-            ]));
+
+            $exceptions = new \SplObjectStorage();
+            $exceptions->attach(new ExceptionDto($e::class, $e->getMessage()));
+            $dispatcher->getUserOptions()->set('exceptionData', $exceptions);
+
             return (new Debug())->listen($exceptions = true, $errors = true)->onUncaughtException($e);
         }
         require_once 'Micro.php';

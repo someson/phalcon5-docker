@@ -13,12 +13,12 @@ use Phalcon\Mvc\Model\Query\{ Builder, BuilderInterface };
 
 class ModelBase extends Model
 {
-    public function onConstruct()
+    public function onConstruct(): void
     {
         $this->useDynamicUpdate(true);
 
         // These Behaviors (if any) are notified AFTER native behavior methods in the models
-        $this->addBehavior(new Behavior\AutoTimeable([
+        $this->addBehavior(new Behavior\Timestampable([
             'beforeValidationOnCreate' => ['field' => 'created_on'],
             'beforeValidationOnUpdate' => ['field' => 'updated_on'],
         ]));
@@ -112,10 +112,7 @@ class ModelBase extends Model
         return Di::getDefault()?->getShared('modelsManager');
     }
 
-    /**
-     * @return BuilderInterface|Builder
-     */
-    public static function buildQuery(): BuilderInterface
+    public static function buildQuery(): BuilderInterface|Builder
     {
         return self::modelsManager()->createBuilder();
     }

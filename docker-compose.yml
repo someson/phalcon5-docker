@@ -1,12 +1,11 @@
-version: "3.8"
 services:
 
     # nginx
-    nginx-service:
+    p5-web:
         build:
             context: .docker/nginx
             dockerfile: Dockerfile
-        container_name: p5-webserver
+        container_name: p5-web
         ports:
             - "80:80"
             - "443:443"
@@ -23,13 +22,13 @@ services:
         env_file:
             - .nginx.env
         depends_on:
-            - app-service
-            - mariadb-service
+            - p5-app
+            - p5-db
         networks:
             - backend
 
     # php
-    app-service:
+    p5-app:
         build:
             context: .docker
             dockerfile: php/Dockerfile
@@ -43,19 +42,22 @@ services:
         volumes:
             - ./src:/var/www
             - ~/composer:/root/.composer
+        depends_on:
+            - p5-db
         networks:
             - backend
 
     # database (mariadb)
-    mariadb-service:
+    p5-db:
         image: mariadb:latest
-        container_name: p5-mariadb
+        container_name: p5-db
         ports:
             - "3307:3306"
         volumes:
             - ./.docker/mysql/cnf:/etc/mysql/conf.d
             - ./.docker/mysql/database:/var/lib/mysql
             - ./.docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         restart: always
         env_file:
             - .sql.env

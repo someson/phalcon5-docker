@@ -2,8 +2,9 @@
 
 namespace App\Shared\Controllers;
 
-use Phalcon\Mvc\Controller;
+use App\Shared\Injectable;
+use Phalcon\Mvc\ControllerInterface;
 
-abstract class ControllerBase extends Controller
+abstract class ControllerBase extends Injectable implements ControllerInterface
 {
 }

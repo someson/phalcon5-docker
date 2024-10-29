@@ -7,7 +7,7 @@ use Phalcon\Tag;
 
 class IndexController extends ControllerBase
 {
-    public function indexAction()
+    public function indexAction(): void
     {
         Tag::setTitle('phalcon 5.x index page');
 

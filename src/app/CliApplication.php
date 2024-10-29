@@ -44,14 +44,14 @@ class CliApplication extends Application
 
     public function handle(?array $arguments = null): void
     {
-        /** @var Manager $eventaManager */
-        $eventaManager = $this->getDI()->getShared('eventsManager');
+        /** @var Manager $eventManager */
+        $eventManager = $this->getDI()->getShared('eventsManager');
 
         /** @var Config $config */
         $config = $this->getDI()->getShared('config');
 
-        $eventaManager->attach('console', new TaskListener($config->path('cli')));
-        $this->setEventsManager($eventaManager);
+        $eventManager->attach('console', new TaskListener($config->path('cli')));
+        $this->setEventsManager($eventManager);
 
         parent::handle($arguments);
     }

@@ -41,7 +41,7 @@ try {
     $console->setArgument($argv, $asString = false, $shift = false)->handle();
 
     /**
-     * $ docker-compose exec app-service php ./scripts/cli.php main main -s -v -r
+     * $ docker-compose exec p5-app php ./scripts/cli.php main main -s -v -r
      * $console->getArguments():
      * Array
      * (

@@ -4,6 +4,7 @@ namespace Library\Cli;
 
 use Phalcon\Cli\Console as BaseApplication;
 
+#[\AllowDynamicProperties]
 class Application extends BaseApplication
 {
     public function getArguments(): array

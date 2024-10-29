@@ -1,18 +1,22 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm-bullseye
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libzip-dev \
-    zip \
-    unzip \
-    libssl-dev \
-    git \
-    libicu-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update  \
+    && apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        git curl \
+        libtool libicu-dev libonig-dev libpng-dev libxml2-dev libxslt1-dev libzip-dev libyaml-dev libssl-dev \
+        zip unzip
+
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && install-php-extensions yaml
 
 ENV APCU_VERSION=5.1.22
+ENV PHALCON_VERSION=5.8.0
+
 RUN set -xe \
-    && pecl install apcu-${APCU_VERSION} xdebug \
-    && docker-php-ext-enable xdebug apcu \
+    && pecl channel-update pecl.php.net \
+    && pecl install apcu-${APCU_VERSION} xdebug-3.3.1 phalcon-${PHALCON_VERSION} \
+    && docker-php-ext-enable xdebug apcu phalcon \
     && docker-php-ext-install -j$(nproc) \
         zip \
         calendar \
@@ -21,22 +25,7 @@ RUN set -xe \
         opcache \
     && pecl clear-cache
 
-ENV PHALCON_VERSION=5.1.3 \
-    PSR_VERSION=1.1.0
-RUN set -xe \
-    && curl -LO https://github.com/jbboehr/php-psr/archive/refs/tags/v${PSR_VERSION}.tar.gz \
-    && tar xzf ${PWD}/v${PSR_VERSION}.tar.gz \
-    && curl -LO https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz \
-    && tar xzf ${PWD}/v${PHALCON_VERSION}.tar.gz \
-    && docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) \
-        ${PWD}/php-psr-${PSR_VERSION} \
-        ${PWD}/cphalcon-${PHALCON_VERSION}/build/phalcon \
-    && rm -r \
-        ${PWD}/v${PSR_VERSION}.tar.gz \
-        ${PWD}/php-psr-${PSR_VERSION} \
-        ${PWD}/v${PHALCON_VERSION}.tar.gz \
-        ${PWD}/cphalcon-${PHALCON_VERSION} \
-    && php -m
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 

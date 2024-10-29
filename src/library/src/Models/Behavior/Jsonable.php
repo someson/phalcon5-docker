@@ -34,12 +34,18 @@ class Jsonable extends Behavior
         }
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function encodeField($field, $jsonOptions = 0)
     {
         $field = (array) $field;
         return $field ? json_encode($field, JSON_THROW_ON_ERROR | $jsonOptions) : new RawValue('NULL');
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function decodeField(string $field)
     {
         if ($field) {
