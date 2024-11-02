@@ -23,8 +23,8 @@ class Version extends BaseVersion
     {
         return [
             0,  // Application main version
-            0,  // Count of successful releases
-            1,  // Count of (features + improvements + solved bugs)
+            2,  // Count of successful releases
+            0,  // Count of (features + improvements + solved bugs)
             0,  // pre-release → 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
             0,  // RC1, Beta2 etc.
         ];
@@ -50,8 +50,8 @@ class Version extends BaseVersion
     public static function releaseHistory(): array
     {
         return [
-            '0.0.1' => '2023-03-03 12:00',
-            '0.0.2' => '2024-10-29 12:00',
+            '0.1.0' => '2023-03-03 12:00',
+            '0.2.0' => '2024-10-29 12:00',
         ];
     }
 }

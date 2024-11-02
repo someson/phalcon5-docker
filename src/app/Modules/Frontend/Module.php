@@ -3,7 +3,7 @@
 namespace App\Modules\Frontend;
 
 use App\Shared\Dispatcher;
-use App\Shared\Listeners\{ ErrorListener, ViewListener };
+use App\Shared\Listeners\ViewListener;
 use Phalcon\Di\{ Di, DiInterface };
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -18,15 +18,16 @@ class Module implements ModuleDefinitionInterface
     {
         /** @var Manager $eventsManager */
         $eventsManager = $container->getShared('eventsManager');
-        $eventsManager->attach('view', new ViewListener());
+        $eventsManager->attach('view', new ViewListener);
 
         $container->setShared('dispatcher', function() use ($eventsManager) {
             /** @var Di $this */
-            $eventsManager->attach('dispatch', new ErrorListener());
+            $eventsManager->attach('dispatch', new Listeners\ErrorListener);
 
-            $dispatcher = new Dispatcher();
+            $dispatcher = new Dispatcher;
             $dispatcher->setDefaultNamespace(__NAMESPACE__ . '\\Controllers');
             $dispatcher->setEventsManager($eventsManager);
+
             return $dispatcher;
         });
 

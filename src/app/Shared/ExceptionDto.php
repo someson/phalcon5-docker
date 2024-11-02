@@ -2,10 +2,15 @@
 
 namespace App\Shared;
 
-final class ExceptionDto
+final readonly class ExceptionDto implements \JsonSerializable
 {
     public function __construct(
-        public readonly string $className,
-        public readonly string|array $message,
+        public string $className,
+        public string|array $message,
     ) {}
+
+    public function jsonSerialize(): array
+    {
+        return get_object_vars($this);
+    }
 }

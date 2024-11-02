@@ -7,6 +7,7 @@ use App\Shared\Dispatcher;
 use App\Shared\ExceptionDto;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application;
 
 #[\AllowDynamicProperties]
@@ -19,6 +20,11 @@ class WebApplication extends Application
             'frontend' => [
                 'className' => Modules\Frontend\Module::class,
                 'routes' => Modules\Frontend\Routes::class,
+            ],
+            'api' => [
+                'className' => Modules\Api\Module::class,
+                'routes' => Modules\Api\Routes::class,
+                'noView' => true,
             ],
         ]);
     }
@@ -45,15 +51,14 @@ class WebApplication extends Application
     public function registerServices(Di $di): void
     {
         foreach ($this->getProviders() as $provider) {
-            $di->register(new $provider());
+            $di->register(new $provider);
         }
     }
 
-    public function handle(string $uri)
+    public function handle(string $uri): ResponseInterface|bool
     {
-        if ($response = parent::handle($uri)) {
-            echo $response->getContent(); // $response->send();
-        }
+        $response = parent::handle($uri);
+        return $response->send();
     }
 
     public function handleException(\Throwable $e)

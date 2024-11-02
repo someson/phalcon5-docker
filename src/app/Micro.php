@@ -2,6 +2,7 @@
 
 use App\Shared\ExceptionDto;
 use App\Shared\Micro;
+use App\Shared\Notification;
 use App\Shared\Simple;
 use App\Shared\Volt;
 use Phalcon\Config\Adapter\Php;
@@ -44,19 +45,14 @@ try {
                     'separator' => '_',
                 ]);
                 return $volt;
-            }
+            },
         ]);
         $view->setVar('config', $config);
         $view->setVar('site', $site);
         return $view;
     });
 
-    /**
-     * @param Micro $app
-     * @param array<int, \Throwable> $exceptions
-     * @return string
-     */
-    $output = static function(Micro $app, array $exceptions) {
+    $output = static function(Micro $app, array $exceptions, bool $renderTemplate = true) {
         $code = ResponseStatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR;
         if ($exceptions[0] instanceof \DomainException) {
             $code = ResponseStatusCodeInterface::STATUS_FORBIDDEN;
@@ -68,18 +64,32 @@ try {
         foreach ($exceptions as $exception) {
             $storage->attach(new ExceptionDto($exception::class, $exception->getMessage()));
         }
-        /** @var Simple $view */
-        $view = $app->view;
-        return $view->render('error', [
-            'errCode' => $code,
-            'exceptionData' => $storage,
-        ]);
+        if ($renderTemplate) {
+            /** @var Simple $view */
+            $view = $app->view;
+            return $view->render('error', [
+                'errCode' => $code,
+                'exceptionData' => $storage,
+            ]);
+        }
+        $exceptionMessages = [];
+        /** @var ExceptionDto $dto */
+        foreach ($storage as $dto) {
+            $exceptionMessages[] = Notification::failure($dto->message);
+        }
+        $app->response->setJsonContent(
+            $exceptionMessages,
+            \JSON_NUMERIC_CHECK | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE
+        );
+        return $app->response;
     };
 
     /** @var \Throwable $e from the catch block where this file is included */
-    $app->error(function(\Throwable $appException) use ($output, $app, $e) {
+    $explicitView = $explicitView ?? true;
+
+    $app->error(function(\Throwable $appException) use ($output, $app, $e, $explicitView) {
         $exceptions = $appException->getMessage() === $e->getMessage() ? [$e] : [$appException, $e];
-        echo $output($app, $exceptions);
+        echo $output($app, $exceptions, $explicitView);
     });
     $app->notFound(function() use ($output, $app, $e) { echo $output($app, [$e]); });
 

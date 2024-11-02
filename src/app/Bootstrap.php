@@ -2,9 +2,10 @@
 
 namespace App;
 
-use DomainException;
+use App\Shared\Listeners\ImplicitViewListener;
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Manager;
 use Phalcon\Support\Registry;
 
 class Bootstrap
@@ -22,6 +23,11 @@ class Bootstrap
 
         $this->_app = $isCli ? new CliApplication($container) : new WebApplication($container);
         $this->_app->registerServices($container);
+
+        /** @var Manager $eventsManager */
+        $eventsManager = $container->getShared('eventsManager');
+        $eventsManager->attach('application', new ImplicitViewListener());
+        $this->_app->setEventsManager($eventsManager);
 
         $registry = new Registry();
         $registry->set('modules', $this->_app->getModules());
@@ -47,7 +53,7 @@ class Bootstrap
 
         if (is_numeric($tld)) {  // if an IP requested
             return $_SERVER['REQUEST_METHOD'] === 'GET' ?
-                throw new DomainException('Request a domain name instead of IP') : env('DEFAULT_DOMAIN');
+                throw new \DomainException('Request a domain name instead of IP') : env('DEFAULT_DOMAIN');
         }
         return $domain;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Listeners;
+namespace App\Modules\Frontend\Listeners;
 
 use App\Env;
 use App\Shared\Dispatcher;
@@ -13,13 +13,15 @@ class ErrorListener
     public function beforeException(Event $event, Dispatcher $dispatcher, \Throwable $exception): \Throwable|\Exception|bool
     {
         $e = new \SplObjectStorage();
-        $e->attach(new ExceptionDto(\get_class($exception), $exception->getMessage()));
+        $e->attach(new ExceptionDto($exception::class, $exception->getMessage()));
         $dispatcher->getUserOptions()->set('exceptionData', $e);
 
         if ($exception instanceof DispatchException) {
             $action = match ($exception->getCode()) {
-                DispatchException::EXCEPTION_INVALID_HANDLER, DispatchException::EXCEPTION_CYCLIC_ROUTING => 'internalServerError',
-                DispatchException::EXCEPTION_HANDLER_NOT_FOUND, DispatchException::EXCEPTION_ACTION_NOT_FOUND => 'notFound',
+                DispatchException::EXCEPTION_INVALID_HANDLER,
+                DispatchException::EXCEPTION_CYCLIC_ROUTING => 'internalServerError',
+                DispatchException::EXCEPTION_HANDLER_NOT_FOUND,
+                DispatchException::EXCEPTION_ACTION_NOT_FOUND => 'notFound',
                 DispatchException::EXCEPTION_INVALID_PARAMS => 'badRequest',
                 default => 'unknownError',
             };

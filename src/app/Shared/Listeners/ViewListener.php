@@ -5,10 +5,14 @@ namespace App\Shared\Listeners;
 use App\Shared\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Flash\Direct;
+use Phalcon\Flash\Exception;
 use Phalcon\Mvc\View;
 
 class ViewListener extends Injectable
 {
+    /**
+     * @throws Exception
+     */
     public function notFoundView(Event $event, View $view): bool
     {
         /** @var Direct $flash */
@@ -26,7 +30,7 @@ class ViewListener extends Injectable
             View::LEVEL_MAIN_LAYOUT => 'Main layout not found',
             default => sprintf('View level %u not found', $level),
         };
-        $content = $message . ' in: <strong>' . str_replace('\\', '/', $event->getData()) . '</strong>';
+        $content = sprintf('%s in: <strong>%s</strong>', $message, str_replace('\\', '/', $event->getData()));
         $message = $flash->message('error', $content);
         $view->setContent($message . $view->getContent());
 

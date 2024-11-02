@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'debug' => env('APP_DEBUG'),
+    'debug' => (bool) env('APP_DEBUG'),
     'app' => [
         'locale'    => 'de_DE',
         'domain'    => env('APP_DOMAIN'),

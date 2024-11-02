@@ -68,3 +68,7 @@ if `... did not complete successfully: exit code: 100`
 ```bash
 $ docker image prune -f
 ```
+
+# TODO
+
+* [switch CI to github workflow](https://www.strangebuzz.com/en/blog/setting-a-ci-cd-workflow-for-a-symfony-project-thanks-to-the-github-actions)
